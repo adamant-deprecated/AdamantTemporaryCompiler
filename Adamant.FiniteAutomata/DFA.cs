@@ -57,6 +57,11 @@ namespace Adamant.FiniteAutomata
 
 		public void Minimize()
 		{
+			Minimize((x, y) => true, (x, y) => x);
+		}
+
+		public void Minimize(Func<State, State, bool> areEquivalent, Func<TData, TData, TData> combine)
+		{
 			var transitionList = MakeTransitionsList();
 			var blocks = new Partition(StateCount);
 
@@ -67,18 +72,34 @@ namespace Adamant.FiniteAutomata
 			DiscardNotReachable(blocks, transitionList, t => t.From, t => t.To);
 
 			// Reachable from final
-			foreach(var finalState in States.Where(IsFinal))
+			var finalStates = States.Where(IsFinal).ToList();
+			foreach(var finalState in finalStates)
 				blocks.Mark(finalState.Index);
 
 			DiscardNotReachable(blocks, transitionList, t => t.To, t => t.From);
 
-			// Split final states
-			foreach(var finalState in States.Where(IsFinal))
+			// Split final states from non-final
+			foreach(var finalState in finalStates)
 				blocks.Mark(finalState.Index);
 
 			blocks.SplitSets();
 
-			// TODO split final states based on action
+			// Split final states from other non-equivalent final states
+			var possibleEquivalentStates = finalStates;
+			while(possibleEquivalentStates.Any())
+			{
+				var state = possibleEquivalentStates.First();
+				var equivalentStatesLookup = possibleEquivalentStates.Skip(1).ToLookup(s => areEquivalent(state, s));
+
+				// Mark states
+				blocks.Mark(state.Index);
+				foreach(var finalState in equivalentStatesLookup[true])
+					blocks.Mark(finalState.Index);
+
+				blocks.SplitSets();
+
+				possibleEquivalentStates = equivalentStatesLookup[false].ToList();
+			}
 
 			// Cords partition to manage transitions
 			var cords = new Partition(transitionList.Count);
@@ -105,8 +126,6 @@ namespace Adamant.FiniteAutomata
 					cords.SplitSets();
 				}
 			}
-
-			// TODO minimize input classes?
 
 			// TODO output minimized DFA or modify current DFA
 		}

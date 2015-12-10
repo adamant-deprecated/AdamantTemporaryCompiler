@@ -100,7 +100,7 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 				// Character Classes
 				new RuleSpec(charClass, "Char", new RuleReferenceSpec("escapeChar")|charClassChar |R("\\-").Sub("-")|R("\\]").Sub("]")),
 				new RuleSpec(charClass, "CharRange", new RuleReferenceSpec("Char")+"-"+new RuleReferenceSpec("Char")),
-				new RuleSpec(charClass, "EndCharClass", "]", Command.PopMode(charClass)),
+				new RuleSpec(charClass, "EndCharClass", "]", Command.PopMode),
 			},
 			new[] { initial, charClass },
 			initial);

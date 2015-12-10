@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Adamant.CompilerCompiler.Lex.Spec.Commands;
 using Adamant.CompilerCompiler.Lex.Spec.Regexes;
 
 namespace Adamant.CompilerCompiler.Lex.Spec
@@ -29,13 +30,32 @@ namespace Adamant.CompilerCompiler.Lex.Spec
 		{
 		}
 
-		public void Validate(LexerSpec lexerSpec)
+		public void Validate(LexerSpec lexer)
 		{
-			var modeReferenceErrors = Modes.Except(lexerSpec.Modes).ToList();
+			var modeReferenceErrors = Modes.Except(lexer.Modes).ToList();
 			if(modeReferenceErrors.Any())
 				throw new Exception($"Rule '{Name}' references mode(s) not in lexer spec: '{string.Join("', '", modeReferenceErrors)}'");
-			Modes.IsSubsetOf(lexerSpec.Modes);
-			Expression.Validate(lexerSpec);
+			Modes.IsSubsetOf(lexer.Modes);
+			ValidateCommands(lexer);
+			Expression.Validate(lexer);
+		}
+
+		private void ValidateCommands(LexerSpec lexer)
+		{
+			if(IsFragment && Commands.Any())
+				throw new Exception($"Rule '{Name}' is a fragment, but has commands.  This is not allowed");
+
+			if(Commands.Count(c => c == Command.Skip || c == Command.More || c is SetTypeCommand) > 1)
+				throw new Exception($"Rule '{Name}', only one of @skip, @more or @type command is allowed per rule");
+
+			if(Commands.Contains(Command.Skip) && Commands.Contains(Command.FlagError))
+				throw new Exception($"Rule '{Name}', skipped rules can't be marked @error");
+
+			if(Commands.Reverse().Skip(1).Any(c => c is CodeActionCommand))
+				throw new Exception($"Rule '{Name}', there can only be one code action per rule, and it must be the last command");
+
+			foreach(var command in Commands)
+				command.Validate(this, lexer);
 		}
 
 		public ISet<Mode> ModesEntered()
@@ -43,10 +63,10 @@ namespace Adamant.CompilerCompiler.Lex.Spec
 			return new HashSet<Mode>(Commands.Select(command => command.ModeEntered()).Where(mode => mode != null));
 		}
 
-		public RuleSpec Simplify(ISet<Mode> modesEntered, LexerSpec lexerSpec)
+		public RuleSpec Simplify(ISet<Mode> modesEntered, LexerSpec lexer)
 		{
 			var reducedModes = new HashSet<Mode>(Modes.Intersect(modesEntered));
-			var simplfiedExpression = Expression.Simplify(lexerSpec);
+			var simplfiedExpression = Expression.Simplify(lexer);
 			if(reducedModes.Count >= Modes.Count && Expression == simplfiedExpression) return this;
 
 			return new RuleSpec(reducedModes, Name, simplfiedExpression, Commands);

@@ -16,7 +16,17 @@ namespace Adamant.CompilerCompiler.Lex
 
 		public void Minimize()
 		{
-			Dfa.Minimize();
+			Dfa.Minimize(StatesEquivalent, Combine);
+		}
+
+		private bool StatesEquivalent(State a, State b)
+		{
+			return Equals(Dfa.GetData(a), Dfa.GetData(b));
+		}
+
+		private LexerAction Combine(LexerAction arg1, LexerAction arg2)
+		{
+			throw new System.NotImplementedException();
 		}
 	}
 }

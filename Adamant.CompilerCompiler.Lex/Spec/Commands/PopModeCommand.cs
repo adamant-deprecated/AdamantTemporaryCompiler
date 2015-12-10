@@ -1,16 +1,22 @@
-﻿namespace Adamant.CompilerCompiler.Lex.Spec.Commands
+﻿using System.Collections.Generic;
+using System.Linq;
+using Adamant.CompilerCompiler.Lex.FiniteAutomata;
+
+namespace Adamant.CompilerCompiler.Lex.Spec.Commands
 {
 	public class PopModeCommand : Command
 	{
-		public readonly Mode Mode;
+		#region Singleton
+		public static Command Instance { get; } = new PopModeCommand();
 
-		public PopModeCommand()
+		private PopModeCommand()
 		{
 		}
+		#endregion
 
-		public PopModeCommand(Mode mode)
+		public override IEnumerable<LexerModeAction> ModeActions()
 		{
-			Mode = mode;
+			return Enumerable.Repeat(LexerModeAction.Pop, 1);
 		}
 	}
 }

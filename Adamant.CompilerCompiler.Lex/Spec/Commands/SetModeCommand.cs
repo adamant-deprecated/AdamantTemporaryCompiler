@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Adamant.CompilerCompiler.Lex.FiniteAutomata;
 
 namespace Adamant.CompilerCompiler.Lex.Spec.Commands
 {
-	/// <summary>
-	/// Push the current mode onto a stack and then set the mode to the given mode
-	/// </summary>
-	public class PushModeCommand : Command
+	public class SetModeCommand : Command
 	{
 		public readonly Mode Mode;
 
-		public PushModeCommand(Mode mode)
+		public SetModeCommand(Mode mode)
 		{
 			if(mode == null)
 				throw new ArgumentNullException();
@@ -31,8 +29,7 @@ namespace Adamant.CompilerCompiler.Lex.Spec.Commands
 
 		public override IEnumerable<LexerModeAction> ModeActions()
 		{
-			yield return LexerModeAction.Push;
-			yield return LexerModeAction.Set(Mode);
+			return Enumerable.Repeat(LexerModeAction.Set(Mode), 1);
 		}
 	}
 }

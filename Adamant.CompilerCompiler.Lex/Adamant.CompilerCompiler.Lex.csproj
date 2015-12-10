@@ -43,6 +43,10 @@
   <ItemGroup>
     <Compile Include="FiniteAutomata\LexerAction.cs" />
     <Compile Include="FiniteAutomata\CodePointEquivalenceClasses.cs" />
+    <Compile Include="FiniteAutomata\LexerModeAction.cs" />
+    <Compile Include="FiniteAutomata\ModeActions\PopMode.cs" />
+    <Compile Include="FiniteAutomata\ModeActions\PushMode.cs" />
+    <Compile Include="FiniteAutomata\ModeActions\SetMode.cs" />
     <Compile Include="FiniteAutomata\States.cs" />
     <Compile Include="LexerDFA.cs" />
     <Compile Include="LexerNFA.cs" />
@@ -51,8 +55,14 @@
     <Compile Include="Services\LexerTransformer.cs" />
     <Compile Include="SpecParsing\ThrowAway.cs" />
     <Compile Include="Spec\Command.cs" />
+    <Compile Include="Spec\Commands\CodeActionCommand.cs" />
+    <Compile Include="Spec\Commands\FlagErrorCommand.cs" />
+    <Compile Include="Spec\Commands\MoreCommand.cs" />
     <Compile Include="Spec\Commands\PopModeCommand.cs" />
     <Compile Include="Spec\Commands\PushModeCommand.cs" />
+    <Compile Include="Spec\Commands\SetModeCommand.cs" />
+    <Compile Include="Spec\Commands\SetTypeCommand.cs" />
+    <Compile Include="Spec\Commands\SkipCommand.cs" />
     <Compile Include="Spec\Mode.cs" />
     <Compile Include="Spec\Regexes\AlternationSpec.cs" />
     <Compile Include="Spec\Regexes\BinaryRegexSpec.cs" />
@@ -61,6 +71,7 @@
     <Compile Include="Spec\Regexes\ConcatenationSpec.cs" />
     <Compile Include="Spec\Regexes\DifferenceSpec.cs" />
     <Compile Include="Spec\Regexes\FunctionSpec.cs" />
+    <Compile Include="Spec\Regexes\Functions\CaptureFunctionSpec.cs" />
     <Compile Include="Spec\Regexes\Functions\DecodeFunctionSpec.cs" />
     <Compile Include="Spec\Regexes\Functions\SkipFunctionSpec.cs" />
     <Compile Include="Spec\Regexes\Functions\SubstituteFunctionSpec.cs" />
