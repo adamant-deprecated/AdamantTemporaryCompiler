@@ -55,12 +55,12 @@ namespace Adamant.FiniteAutomata
 			return state;
 		}
 
-		public void Minimize()
+		public Tuple<IReadOnlyDictionary<State, State>, DFA<TData>> Minimize()
 		{
-			Minimize((x, y) => true, (x, y) => x);
+			return Minimize((x, y) => true, (x, y) => x);
 		}
 
-		public void Minimize(Func<State, State, bool> areEquivalent, Func<TData, TData, TData> combine)
+		public Tuple<IReadOnlyDictionary<State, State>, DFA<TData>> Minimize(Func<State, State, bool> areEquivalent, Func<TData, TData, TData> combine)
 		{
 			var transitionList = MakeTransitionsList();
 			var blocks = new Partition(StateCount);
@@ -127,7 +127,36 @@ namespace Adamant.FiniteAutomata
 				}
 			}
 
-			// TODO output minimized DFA or modify current DFA
+			// Generate minimized DFA
+			var minDFA = new DFA<TData>(InputValueCount, blocks.SetCount);
+
+			// Create states
+			for(var set = 0; set < blocks.SetCount; set++)
+			{
+				var data = blocks.Set(set).Select(s => GetData(new State(s))).Aggregate(combine);
+				var state = minDFA.AddState(data);
+				// Sets are either all final or non-final states
+				if(IsFinal(new State(blocks.SomeElementOf(set))))
+					minDFA.SetFinal(state);
+			}
+
+			// Create Start State Map
+			var startStateMap = (IReadOnlyDictionary<State, State>)StartStates.ToDictionary(s => s, s => new State(blocks.SetOf(s.Index)));
+
+			// Mark Start States
+			foreach(var startState in startStateMap.Values)
+				minDFA.SetStart(startState);
+
+			// Create transitions
+			for(var set = 0; set < cords.SetCount; set++)
+			{
+				var transition = transitionList[cords.SomeElementOf(set)];
+				var from = new State(blocks.SetOf(transition.From));
+				var to = new State(blocks.SetOf(transition.To));
+				minDFA.SetTransition(from, new Input(transition.OnInput), to);
+			}
+
+			return Tuple.Create(startStateMap, minDFA);
 		}
 
 		private List<Transition> MakeTransitionsList()

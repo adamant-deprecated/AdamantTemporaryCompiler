@@ -184,5 +184,10 @@ namespace Adamant.FiniteAutomata.Minimize
 			}
 			past[setCount++] = elements.Length;
 		}
+
+		public int SomeElementOf(int set)
+		{
+			return elements[first[set]];
+		}
 	}
 }

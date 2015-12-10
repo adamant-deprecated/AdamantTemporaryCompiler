@@ -56,7 +56,7 @@ namespace Adamant.FiniteAutomata
 		}
 
 		#region ToDFA
-		public DFA<TData> ToDFA(Func<IEnumerable<Tuple<State, TData>>, TData> mergeData)
+		public Tuple<IReadOnlyDictionary<State, State>, DFA<TData>> ToDFA(Func<IEnumerable<Tuple<State, TData>>, TData> mergeData)
 		{
 			// Fill in all the epsilon transitions, so we don't have to constantly take the closure
 			EpsilonFill();
@@ -68,16 +68,21 @@ namespace Adamant.FiniteAutomata
 			var dfaStates = new Dictionary<StateSet, State>();
 			var nfaStateSets = new List<StateSet>();
 
+			var startStateMap = new Dictionary<State, State>();
+
 			// Add states for our start states
 			foreach(var startState in StartStates)
 			{
-				var stateSet = EpsilonTransitions(startState); // A state is alwayts in its own epsilon closure
+				// TODO could two start states be equivalent?
+				var stateSet = EpsilonTransitions(startState); // A state is always in its own epsilon closure
 				var dfaState = dfa.AddState(GetData(stateSet, mergeData), true);
 				if(stateSet.Any(IsFinal))
 					dfa.SetFinal(dfaState);
 
 				nfaStateSets.Add(stateSet);
 				dfaStates.Add(stateSet, dfaState);
+
+				startStateMap.Add(startState, dfaState);
 			}
 
 			// Follow the DFA states to their conclusions
@@ -104,7 +109,7 @@ namespace Adamant.FiniteAutomata
 				}
 			}
 
-			return dfa;
+			return Tuple.Create((IReadOnlyDictionary<State, State>)startStateMap, dfa);
 		}
 
 		/// <summary>

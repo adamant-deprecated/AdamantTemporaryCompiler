@@ -21,7 +21,7 @@ namespace Adamant.CompilerCompiler.Lex.CLI
 			spec = spec.Simplify();
 			var nfa = spec.ConvertToNFA();
 			var dfa = nfa.ToDFA();
-			dfa.Minimize();
+			var minDFA = dfa.Minimize();
 
 			return 0;
 		}

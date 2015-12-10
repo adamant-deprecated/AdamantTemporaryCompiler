@@ -105,12 +105,13 @@ namespace Adamant.CompilerCompiler.Lex.Services
 
 		public LexerDFA ConvertToDFA(LexerNFA lexerNFA)
 		{
-			var dfa = lexerNFA.Nfa.ToDFA(lexerActions =>
+			var dfaResult = lexerNFA.Nfa.ToDFA(lexerActions =>
 											lexerActions.Select(x => x.Item2)
 											.Where(a => a != null)
 											.OrderBy(a => a.Priority)
 											.FirstOrDefault());
-			return new LexerDFA(lexerNFA.EquivalenceClasses, dfa);
+			var modeMap = lexerNFA.ModeMap.ToDictionary(e => e.Key, e => dfaResult.Item1[e.Value]);
+			return new LexerDFA(modeMap, lexerNFA.EquivalenceClasses, dfaResult.Item2);
 		}
 	}
 }

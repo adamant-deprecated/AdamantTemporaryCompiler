@@ -1,22 +1,31 @@
-﻿using Adamant.CompilerCompiler.Lex.FiniteAutomata;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Adamant.CompilerCompiler.Lex.FiniteAutomata;
+using Adamant.CompilerCompiler.Lex.Spec;
 using Adamant.FiniteAutomata;
 
 namespace Adamant.CompilerCompiler.Lex
 {
 	public class LexerDFA
 	{
-		public LexerDFA(CodePointEquivalenceClasses equivalenceClasses, DFA<LexerAction> dfa)
+		public LexerDFA(IDictionary<Mode, State> modeMap, CodePointEquivalenceClasses equivalenceClasses, DFA<LexerAction> dfa)
 		{
+			ModeMap = new Dictionary<Mode, State>(modeMap);
 			EquivalenceClasses = equivalenceClasses;
 			Dfa = dfa;
 		}
 
+		public IReadOnlyDictionary<Mode, State> ModeMap { get; }
 		public CodePointEquivalenceClasses EquivalenceClasses { get; }
 		public DFA<LexerAction> Dfa { get; set; }
 
-		public void Minimize()
+		public LexerDFA Minimize()
 		{
-			Dfa.Minimize(StatesEquivalent, Combine);
+			var minResult = Dfa.Minimize(StatesEquivalent, Combine);
+
+			var modeMap = ModeMap.ToDictionary(e => e.Key, e => minResult.Item1[e.Value]);
+			return new LexerDFA(modeMap, EquivalenceClasses, minResult.Item2);
 		}
 
 		private bool StatesEquivalent(State a, State b)
@@ -24,9 +33,15 @@ namespace Adamant.CompilerCompiler.Lex
 			return Equals(Dfa.GetData(a), Dfa.GetData(b));
 		}
 
-		private LexerAction Combine(LexerAction arg1, LexerAction arg2)
+		private static LexerAction Combine(LexerAction a, LexerAction b)
 		{
-			throw new System.NotImplementedException();
+			if(a == null) return b;
+			if(b == null) return a;
+
+			if(!Equals(a, b))
+				throw new NotSupportedException("Can't combine two lexer actions that are not equivalent");
+
+			return a.Priority <= b.Priority ? a : b;
 		}
 	}
 }

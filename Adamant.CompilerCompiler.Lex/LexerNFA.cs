@@ -10,12 +10,12 @@ namespace Adamant.CompilerCompiler.Lex
 	{
 		public LexerNFA(IDictionary<Mode, State> modeMap, CodePointEquivalenceClasses equivalenceClasses, NFA<LexerAction> nfa)
 		{
-			ModeMap = modeMap;
+			ModeMap = new Dictionary<Mode, State>(modeMap);
 			EquivalenceClasses = equivalenceClasses;
 			Nfa = nfa;
 		}
 
-		public IDictionary<Mode, State> ModeMap { get; }
+		public IReadOnlyDictionary<Mode, State> ModeMap { get; }
 		public CodePointEquivalenceClasses EquivalenceClasses { get; }
 		public NFA<LexerAction> Nfa { get; }
 

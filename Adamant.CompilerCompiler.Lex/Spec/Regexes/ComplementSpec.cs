@@ -34,8 +34,8 @@ namespace Adamant.CompilerCompiler.Lex.Spec.Regexes
 			tempNFA.SetFinal(states.End);
 
 			// Convert to a DFA
-			var dfa = tempNFA.ToDFA(stateData => null);
-			// TODO minimize DFA
+			var dfa = tempNFA.ToDFA(stateData => null).Item2;
+			dfa = dfa.Minimize().Item2;
 			dfa.MakeComplete(); // Can only do complement on complete DFA
 
 			// Now add the complement to this nfa
