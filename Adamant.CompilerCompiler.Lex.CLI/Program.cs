@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Adamant.CompilerCompiler.Lex.SpecParsing;
 using NDesk.Options;
 
@@ -22,7 +21,8 @@ namespace Adamant.CompilerCompiler.Lex.CLI
 			var nfa = spec.ConvertToNFA();
 			var dfa = nfa.ToDFA();
 			var minDFA = dfa.Minimize();
-
+			var codeGen = minDFA.ConvertToCodeGenerator();
+			// TODO Generate(skeleton);
 			return 0;
 		}
 

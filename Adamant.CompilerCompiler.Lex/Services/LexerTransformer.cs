@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Adamant.CompilerCompiler.Lex.FiniteAutomata;
 using Adamant.CompilerCompiler.Lex.FiniteAutomata.ModeActions;
 using Adamant.CompilerCompiler.Lex.Spec;
 using Adamant.CompilerCompiler.Lex.Spec.Commands;
+using Adamant.Core;
 using Adamant.FiniteAutomata;
 
 namespace Adamant.CompilerCompiler.Lex.Services
@@ -112,6 +114,92 @@ namespace Adamant.CompilerCompiler.Lex.Services
 											.FirstOrDefault());
 			var modeMap = lexerNFA.ModeMap.ToDictionary(e => e.Key, e => dfaResult.Item1[e.Value]);
 			return new LexerDFA(modeMap, lexerNFA.EquivalenceClasses, dfaResult.Item2);
+		}
+
+		public LexerCodeGenerator ConvertToCodeGenerator(LexerDFA lexerDfa)
+		{
+			var optimizedEquivalenceTable = Optimize(GenEquivalenceTable(lexerDfa.EquivalenceClasses));
+			throw new NotImplementedException();
+		}
+
+		/// <summary>
+		/// These are the unicode planes that contain assigned code points as of Unicode 8.0
+		/// </summary>
+		private static readonly int[] UnicodePlanes = { 0, 1, 2, 14, 15, 16 };
+
+		private static IDictionary<int, Input[]> GenEquivalenceTable(CodePointEquivalenceClasses equivalenceClasses)
+		{
+			var equivalenceTable = new Dictionary<int, Input[]>();
+			foreach(var plane in UnicodePlanes)
+			{
+				var planeEquivalenceClasses = new Input[0x10000];
+				equivalenceTable.Add(plane, planeEquivalenceClasses);
+				var planeBits = plane << 16;
+				for(var planePlace = 0; planePlace < 0x10000; planePlace++)
+					planeEquivalenceClasses[planePlace] = equivalenceClasses.GetClass((CodePoint)(planeBits + planePlace));
+			}
+			return equivalenceTable;
+		}
+
+		/// <summary>
+		/// This is a fairly simple optimization strategy. Were just going to lay the blocks out in order.
+		/// For each block well try to find the first place it could fit, which may just be the end.
+		/// </summary>
+		private static Tuple<IDictionary<int, int[]>, IList<Input>> Optimize(IDictionary<int, Input[]> fullEquivalenceTable)
+		{
+			var equivalenceTable = new List<Input>();
+			var planeOffsets = new Dictionary<int, int[]>();
+			foreach(var plane in UnicodePlanes)
+			{
+				var planeEquivalenceClasses = fullEquivalenceTable[plane];
+				if(AllEqual(planeEquivalenceClasses))
+				{
+					// Optimize the case where the whole plane is the same equivalence class,
+					// This is represented as a single element array in place of the offsets
+					planeOffsets.Add(plane, new[] { planeEquivalenceClasses[0].Value });
+				}
+				else
+				{
+					var blockOffsets = new int[256];
+					planeOffsets.Add(plane, blockOffsets);
+					for(var block = 0; block < 256; block++)
+						for(var place = 0; place < equivalenceTable.Count + 1; place++)
+							if(CanPlaceBlockAt(planeEquivalenceClasses, block, place, equivalenceTable))
+							{
+								blockOffsets[block] = place;
+								// We may need to copy the end of the block into the equivalenceTable
+								var copyCount = (place + 256) - equivalenceTable.Count;
+								if(copyCount > 0)
+									equivalenceTable.AddRange(new ArraySegment<Input>(planeEquivalenceClasses, (block << 8) + 256 - copyCount, copyCount));
+								break; // We may have just made equivalenceTable larger and it will want to continue the loop
+							}
+
+				}
+			}
+			return Tuple.Create<IDictionary<int, int[]>, IList<Input>>(planeOffsets, equivalenceTable);
+		}
+
+		private static bool CanPlaceBlockAt(Input[] planeEquivalenceClasses, int block, int place, IList<Input> equivalenceTable)
+		{
+			var blockStart = block << 8;
+			// Since the block place could take us off the end of the equivalenceTable, we may only need to check a portion of the block
+			var blockPortion = Math.Min(0xFF, equivalenceTable.Count - place - 1);
+			var blockEnd = blockStart + blockPortion;
+			for(var blockChar = blockStart; blockChar <= blockEnd; blockChar++, place++)
+				if(equivalenceTable[place] != planeEquivalenceClasses[blockChar])
+					return false;
+
+			return true;
+		}
+
+		private static bool AllEqual(Input[] planeEquivalenceClasses)
+		{
+			var value = planeEquivalenceClasses[0];
+			for(var i = 1; i < planeEquivalenceClasses.Length; i++)
+				if(value != planeEquivalenceClasses[i])
+					return false;
+
+			return true;
 		}
 	}
 }

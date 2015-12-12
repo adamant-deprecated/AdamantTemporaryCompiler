@@ -16,5 +16,15 @@
 		{
 			return $"Input {Value}";
 		}
+
+		public static bool operator !=(Input a, Input b)
+		{
+			return a.Value != b.Value;
+		}
+
+		public static bool operator ==(Input a, Input b)
+		{
+			return a.Value == b.Value;
+		}
 	}
 }

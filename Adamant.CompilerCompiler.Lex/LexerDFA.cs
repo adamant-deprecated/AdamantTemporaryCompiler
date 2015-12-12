@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Adamant.CompilerCompiler.Lex.FiniteAutomata;
+using Adamant.CompilerCompiler.Lex.Services;
 using Adamant.CompilerCompiler.Lex.Spec;
 using Adamant.FiniteAutomata;
 
@@ -42,6 +43,11 @@ namespace Adamant.CompilerCompiler.Lex
 				throw new NotSupportedException("Can't combine two lexer actions that are not equivalent");
 
 			return a.Priority <= b.Priority ? a : b;
+		}
+
+		public LexerCodeGenerator ConvertToCodeGenerator()
+		{
+			return LexerTransformer.Instance.ConvertToCodeGenerator(this);
 		}
 	}
 }
