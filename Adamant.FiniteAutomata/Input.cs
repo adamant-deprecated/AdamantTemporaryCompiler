@@ -26,5 +26,10 @@
 		{
 			return a.Value == b.Value;
 		}
+
+		public override int GetHashCode()
+		{
+			return Value.GetHashCode();
+		}
 	}
 }

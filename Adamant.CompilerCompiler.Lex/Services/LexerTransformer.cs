@@ -45,7 +45,7 @@ namespace Adamant.CompilerCompiler.Lex.Services
 				nfa.SetData(endState, new LexerAction(i, tokenType, isMore, isError, modeActions, code));
 			}
 
-			return new LexerNFA(modeMap, equivalenceClasses, nfa);
+			return new LexerNFA(spec, modeMap, equivalenceClasses, nfa);
 		}
 
 		private static CodePointEquivalenceClasses MakeEquivalenceClasses(LexerSpec spec)
@@ -113,13 +113,39 @@ namespace Adamant.CompilerCompiler.Lex.Services
 											.OrderBy(a => a.Priority)
 											.FirstOrDefault());
 			var modeMap = lexerNFA.ModeMap.ToDictionary(e => e.Key, e => dfaResult.Item1[e.Value]);
-			return new LexerDFA(modeMap, lexerNFA.EquivalenceClasses, dfaResult.Item2);
+			return new LexerDFA(lexerNFA.LexerSpec, modeMap, lexerNFA.EquivalenceClasses, dfaResult.Item2);
 		}
 
 		public LexerCodeGenerator ConvertToCodeGenerator(LexerDFA lexerDfa)
 		{
+			// TODO Ruduce Columns (covers equivalent inputs)
+			// TODO Reduce Rows (is this needed? shouldn't this be gotten by DFA min? Perhaps if we match the same token in two diff modes?)
+			// TODO Use column map when building equivalence table
 			var optimizedEquivalenceTable = Optimize(GenEquivalenceTable(lexerDfa.EquivalenceClasses));
-			throw new NotImplementedException();
+			// TODO It would be great if we had an algo for real table compression like described in Dragon book, but can't find out what that is yet
+
+			var dfa = lexerDfa.Dfa;
+
+			var rowMap = new int[dfa.StateCount];
+			var transitions = new int[dfa.StateCount * dfa.InputValueCount];
+			var row = 0;
+			foreach(var state in dfa.States)
+			{
+				// Since we aren't reducing rows yet, each row is just 1-to-1 with the input length
+				var rowOffset = row * dfa.InputValueCount;
+				rowMap[row] = rowOffset;
+
+				var column = 0;
+				foreach(var input in dfa.Inputs)
+				{
+					transitions[rowOffset + column] = dfa.GetTransition(state, input)?.Index ?? -1;
+					column++;
+				}
+
+				row++;
+			}
+
+			return new LexerCodeGenerator(lexerDfa.LexerSpec, lexerDfa.ModeMap, optimizedEquivalenceTable.Item1, optimizedEquivalenceTable.Item2, rowMap, transitions);
 		}
 
 		/// <summary>

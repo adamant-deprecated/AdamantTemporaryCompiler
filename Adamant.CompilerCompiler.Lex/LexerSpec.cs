@@ -9,17 +9,18 @@ namespace Adamant.CompilerCompiler.Lex
 	public class LexerSpec
 	{
 		public readonly string LexerName;
+		public readonly string LexerNamespace;
 		public readonly Mode InitialMode;
 		public readonly RuleSpecs Rules;
 		public readonly ISet<Mode> Modes;
 		public readonly bool HasBeenSimplified;
 
-		public LexerSpec(string lexerName, IEnumerable<RuleSpec> rules, IEnumerable<Mode> modes, Mode initialMode)
-			: this(lexerName, rules, modes, initialMode, false)
+		public LexerSpec(string lexerName, string lexerNamespace, IEnumerable<RuleSpec> rules, IEnumerable<Mode> modes, Mode initialMode)
+			: this(lexerName, lexerNamespace, rules, modes, initialMode, false)
 		{
 		}
 
-		private LexerSpec(string lexerName, IEnumerable<RuleSpec> rules, IEnumerable<Mode> modes, Mode initialMode, bool hasBeenSimplified)
+		private LexerSpec(string lexerName, string lexerNamespace, IEnumerable<RuleSpec> rules, IEnumerable<Mode> modes, Mode initialMode, bool hasBeenSimplified)
 		{
 			LexerName = lexerName;
 			Rules = new RuleSpecs(rules);
@@ -27,6 +28,7 @@ namespace Adamant.CompilerCompiler.Lex
 			InitialMode = initialMode;
 			Modes.Add(InitialMode);
 			HasBeenSimplified = hasBeenSimplified;
+			LexerNamespace = lexerNamespace;
 		}
 
 		/// <summary>
@@ -63,7 +65,7 @@ namespace Adamant.CompilerCompiler.Lex
 			var reachableModes = ReachableModes();
 			var simplifiedRules = Rules.Select(r => r.Simplify(reachableModes, this)).Where(r => !r.IsFragment && r.Modes.Any());
 
-			return new LexerSpec(LexerName, simplifiedRules, reachableModes, InitialMode, true);
+			return new LexerSpec(LexerName, LexerNamespace, simplifiedRules, reachableModes, InitialMode, true);
 		}
 
 		/// <summary>

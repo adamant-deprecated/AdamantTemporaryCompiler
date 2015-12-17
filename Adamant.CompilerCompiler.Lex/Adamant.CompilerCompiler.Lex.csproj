@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeGen\CSharpSkeleton.cs" />
+    <Compile Include="CodeGen\DataType.cs" />
+    <Compile Include="CodeGen\Skeleton.cs" />
     <Compile Include="FiniteAutomata\LexerAction.cs" />
     <Compile Include="FiniteAutomata\CodePointEquivalenceClasses.cs" />
     <Compile Include="FiniteAutomata\LexerModeAction.cs" />
@@ -53,7 +56,13 @@
     <Compile Include="LexerNFA.cs" />
     <Compile Include="LexerSpec.cs" />
     <Compile Include="LexerSpecParser.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Services\LexerTransformer.cs" />
+    <Compile Include="SpecParsing\SpecLexer.cs" />
     <Compile Include="SpecParsing\ThrowAway.cs" />
     <Compile Include="Spec\Command.cs" />
     <Compile Include="Spec\Commands\CodeActionCommand.cs" />
@@ -91,6 +100,10 @@
     <None Include="SpecParsing\Spec.lex" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Adamant.CompilerCompiler.Lex.Runtime\Adamant.CompilerCompiler.Lex.Runtime.csproj">
+      <Project>{8f0f6f98-d891-4741-9ab1-b07e664fa653}</Project>
+      <Name>Adamant.CompilerCompiler.Lex.Runtime</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Adamant.Core\Adamant.Core.csproj">
       <Project>{0ef4b4a8-1d6c-4799-af57-4538b67e7525}</Project>
       <Name>Adamant.Core</Name>
@@ -103,6 +116,18 @@
       <Project>{fce74193-e265-4b89-a503-d3cac10c7093}</Project>
       <Name>Sys.Text</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CodeGen\CSharpSkeleton.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -22,7 +22,7 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 			var initial = new Mode("DEFAULT");
 			var charClass = new Mode("CharacterClass");
 
-			SpecLexerSpec = new LexerSpec("SpecLexer", new[]
+			SpecLexerSpec = new LexerSpec("SpecLexer", "Adamant.CompilerCompiler.Lex.SpecParsing", new[]
 			{
 				// Comments
 				new RuleSpec(initial, "Comment",("/*" + ~R("*/")) |("//" + ~newline), Command.Skip),

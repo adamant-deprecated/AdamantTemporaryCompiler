@@ -10,13 +10,15 @@ namespace Adamant.CompilerCompiler.Lex
 {
 	public class LexerDFA
 	{
-		public LexerDFA(IDictionary<Mode, State> modeMap, CodePointEquivalenceClasses equivalenceClasses, DFA<LexerAction> dfa)
+		public LexerDFA(LexerSpec lexerSpec, IDictionary<Mode, State> modeMap, CodePointEquivalenceClasses equivalenceClasses, DFA<LexerAction> dfa)
 		{
+			LexerSpec = lexerSpec;
 			ModeMap = new Dictionary<Mode, State>(modeMap);
 			EquivalenceClasses = equivalenceClasses;
 			Dfa = dfa;
 		}
 
+		public LexerSpec LexerSpec { get; }
 		public IReadOnlyDictionary<Mode, State> ModeMap { get; }
 		public CodePointEquivalenceClasses EquivalenceClasses { get; }
 		public DFA<LexerAction> Dfa { get; set; }
@@ -26,7 +28,7 @@ namespace Adamant.CompilerCompiler.Lex
 			var minResult = Dfa.Minimize(StatesEquivalent, Combine);
 
 			var modeMap = ModeMap.ToDictionary(e => e.Key, e => minResult.Item1[e.Value]);
-			return new LexerDFA(modeMap, EquivalenceClasses, minResult.Item2);
+			return new LexerDFA(LexerSpec, modeMap, EquivalenceClasses, minResult.Item2);
 		}
 
 		private bool StatesEquivalent(State a, State b)

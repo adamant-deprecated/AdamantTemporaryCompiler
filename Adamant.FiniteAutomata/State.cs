@@ -11,7 +11,7 @@ namespace Adamant.FiniteAutomata
 	/// </summary>
 	public struct State : IComparable<State>
 	{
-		internal readonly int Index;
+		public readonly int Index;
 
 		internal State(int index)
 		{

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using Adamant.CompilerCompiler.Lex.CodeGen;
 using Adamant.CompilerCompiler.Lex.SpecParsing;
 using NDesk.Options;
 
@@ -22,7 +24,10 @@ namespace Adamant.CompilerCompiler.Lex.CLI
 			var dfa = nfa.ToDFA();
 			var minDFA = dfa.Minimize();
 			var codeGen = minDFA.ConvertToCodeGenerator();
-			// TODO Generate(skeleton);
+			var skeleton = new CSharpSkeleton();
+			var code = codeGen.GenerateCode(skeleton, "0.1.0-alpha-*");
+			var targetPath = Path.Combine(Path.GetDirectoryName(options.FilePath), codeGen.FileName(skeleton));
+			File.WriteAllText(targetPath, code);
 			return 0;
 		}
 
