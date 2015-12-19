@@ -19,7 +19,7 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 				.Union(new InversionListCodePointSet('-'))
 				.Union(new InversionListCodePointSet(']')).Complement());
 
-			var initial = new Mode("DEFAULT");
+			var initial = new Mode("Default");
 			var charClass = new Mode("CharacterClass");
 
 			SpecLexerSpec = new LexerSpec("SpecLexer", "Adamant.CompilerCompiler.Lex.SpecParsing", new[]

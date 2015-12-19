@@ -30,11 +30,22 @@ namespace <%= ClassNamespace %>
 			<%= Modes %>
 		}
 
-<%= PlaneOffsets %>
-		private static readonly <%= EquivalenceClassType %>[] equivalenceTable = {<%= EquivalenceTable %>};
+		<%= PlaneOffsets %>
+		private static readonly <%= EquivalenceClassType %>[] equivalenceTable =
+		{
+			<%= EquivalenceTable %>
+		};
 
-		private static readonly <%= RowMapType %>[] rowMap = {<%= RowMap %>};
-		private static readonly <%= StateType %>[] transitions = {<%= Transitions %>};
+		private static readonly <%= RowMapType %>[] rowMap =
+		{
+			<%= RowMap %>
+		};
+		private static readonly <%= StateType %>[] transitions =
+		{
+			<%= Transitions %>
+		};
+
+		private const int ErrorState = <%= ErrorState %>;
 
 		private readonly TextReader reader;
 		private Mode currentMode = Mode.<%= InitialMode %>;
@@ -52,7 +63,7 @@ namespace <%= ClassNamespace %>
 
 			switch(plane)
 			{
-<%= EquivalenceClassCases %>
+				<%= EquivalenceClassCases %>
 			}
 		}
 

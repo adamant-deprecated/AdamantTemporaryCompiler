@@ -118,6 +118,8 @@ namespace Adamant.CompilerCompiler.Lex.Services
 
 		public LexerCodeGenerator ConvertToCodeGenerator(LexerDFA lexerDfa)
 		{
+			var errorState = lexerDfa.Dfa.MakeComplete();
+
 			// TODO Ruduce Columns (covers equivalent inputs)
 			// TODO Reduce Rows (is this needed? shouldn't this be gotten by DFA min? Perhaps if we match the same token in two diff modes?)
 			// TODO Use column map when building equivalence table
@@ -138,14 +140,14 @@ namespace Adamant.CompilerCompiler.Lex.Services
 				var column = 0;
 				foreach(var input in dfa.Inputs)
 				{
-					transitions[rowOffset + column] = dfa.GetTransition(state, input)?.Index ?? -1;
+					transitions[rowOffset + column] = dfa.GetTransition(state, input)?.Index ?? -1; // Since we made it complete, -1 should never be output
 					column++;
 				}
 
 				row++;
 			}
 
-			return new LexerCodeGenerator(lexerDfa.LexerSpec, lexerDfa.ModeMap, optimizedEquivalenceTable.Item1, optimizedEquivalenceTable.Item2, rowMap, transitions);
+			return new LexerCodeGenerator(lexerDfa.LexerSpec, lexerDfa.ModeMap, errorState.Index, optimizedEquivalenceTable.Item1, optimizedEquivalenceTable.Item2, rowMap, transitions);
 		}
 
 		/// <summary>

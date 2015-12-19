@@ -36,13 +36,15 @@ namespace Adamant.FiniteAutomata
 			return transitions[state.Index][onInput.Value];
 		}
 
-		public void MakeComplete()
+		public State MakeComplete()
 		{
 			var error = AddErrorState();
 			for(var state = 0; state < StateCount; state++)
 				for(var input = 0; input < InputValueCount; input++)
 					if(transitions[state][input] == null)
 						transitions[state][input] = error;
+
+			return error;
 		}
 
 		public State AddErrorState()
