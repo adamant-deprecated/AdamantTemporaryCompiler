@@ -7,11 +7,14 @@
 //     the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
+
+using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
+using System.Text;
 
 namespace Adamant.CompilerCompiler.Lex.SpecParsing
 {
@@ -438,25 +441,26 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 		private readonly TextReader reader;
 		private Mode currentMode = Mode.Default;
 		private Stack<Mode> modeStack = new Stack<Mode>();
+		private readonly StringBuilder buffer = new StringBuilder();
+		private int currentLine = 0;
+		private int currentColumn = 0;
+		private int currentCodepoint = 0;
 
 		public SpecLexer(TextReader reader)
 		{
 			this.reader = reader;
 		}
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		private static int EquivalenceClass(int codePoint)
+		public SpecLexer(Stream stream)
+			: this(new StreamReader(stream))
 		{
-			var plane = codePoint & 0x1F000;
-
-			switch(plane)
-			{
-				case 0x0:
-					return equivalenceTable[plane0Offsets[(codePoint&0xFF00)>>8] + (codePoint&0xFF)];
-				default:
-					return 61;
-			}
 		}
+
+		public Mode CurrentMode
+		{
+			get { return currentMode; }
+		}
+
 
 		public void PushMode(Mode mode)
 		{
@@ -472,6 +476,101 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 		public void SetMode(Mode mode)
 		{
 			currentMode = mode;
+		}
+
+		public override IEnumerator<Adamant.CompilerCompiler.Lex.Runtime.Token<SpecLexer.TokenType>> GetEnumerator()
+		{
+			while(true)
+				yield return NextToken();
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		private Adamant.CompilerCompiler.Lex.Runtime.Token<SpecLexer.TokenType> NextToken()
+		{
+			var currentState = (int)currentMode;
+			var afterCarriageReturn = false;
+			while(true)
+			{
+				var maybeCodePoint = ReadCodePoint();
+				if(maybeCodePoint == null)
+					throw new NotImplementedException("EOF");
+
+				var codePoint = maybeCodePoint.Value;
+
+				afterCarriageReturn = TrackLineAndColumn(codePoint, afterCarriageReturn);
+				var equivalenceClass = EquivalenceClass(codePoint);
+				var nextState = transitions[rowMap[currentState] + equivalenceClass];
+				// TODO lookup action for this state
+				// TODO execute the action for this state
+				// TODO generate (or not) the token
+			}
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		private int? ReadCodePoint()
+		{
+			var codePoint = reader.Read();
+			if(codePoint == -1) return null;
+
+			var charValue = (char)codePoint;
+			if(char.IsHighSurrogate(charValue))
+			{
+				var low = reader.Read();
+				if(low == -1) return null;
+				codePoint = char.ConvertToUtf32(charValue, (char)low);
+			}
+			return codePoint;
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		private static int EquivalenceClass(int codePoint)
+		{
+			var plane = codePoint & 0x1F000;
+
+			switch(plane)
+			{
+				case 0x0:
+					return equivalenceTable[plane0Offsets[(codePoint & 0xFF00) >> 8] + (codePoint & 0xFF)];
+				default:
+					return 61;
+			}
+		}
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		private bool TrackLineAndColumn(int codePoint, bool afterCarriageReturn)
+		{
+			switch(codePoint)
+			{
+				// TODO clarify these
+				case '\u000B':
+				case '\u000C':
+				case '\u0085':
+				case '\u2028':
+				case '\u2029':
+					currentLine++;
+					currentColumn = 0;
+					afterCarriageReturn = false;
+					break;
+				case '\r':
+					currentLine++;
+					currentColumn = 0;
+					afterCarriageReturn = true;
+					break;
+				case '\n':
+					if(afterCarriageReturn)
+						afterCarriageReturn = false;
+					else
+					{
+						currentLine++;
+						currentColumn = 0;
+					}
+					break;
+				default:
+					afterCarriageReturn = false;
+					currentColumn++;
+					break;
+			}
+			return afterCarriageReturn;
 		}
 	}
 }

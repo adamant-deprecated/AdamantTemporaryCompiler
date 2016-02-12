@@ -144,7 +144,7 @@ namespace Adamant.CompilerCompiler.Lex
 					continue;
 				}
 				yield return $"case 0x{planeOffset.Key << 16:X}:";
-				yield return $"\treturn equivalenceTable[plane{planeOffset.Key}Offsets[(codePoint&0xFF00)>>8] + (codePoint&0xFF)];";
+				yield return $"\treturn equivalenceTable[plane{planeOffset.Key}Offsets[(codePoint & 0xFF00) >> 8] + (codePoint & 0xFF)];";
 			}
 
 			yield return "default:";

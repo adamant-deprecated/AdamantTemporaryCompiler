@@ -1,16 +1,15 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 
 namespace Adamant.CompilerCompiler.Lex.Runtime
 {
-	public abstract class Lexer<TToken>
+	public abstract class Lexer<TTokenType> : IEnumerable<Token<TTokenType>>
 	{
-		////protected abstract int EquivalenceClass(int codePoint);
+		public abstract IEnumerator<Token<TTokenType>> GetEnumerator();
 
-		////public IEnumerable<TToken> Lex(TextReader reader)
-		////{
-		////	throw new NotImplementedException();
-		////}
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
+		}
 	}
 }

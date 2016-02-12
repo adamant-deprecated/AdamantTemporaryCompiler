@@ -8,6 +8,8 @@ namespace Adamant.CompilerCompiler.Lex.CLI
 {
 	public class Program
 	{
+		private const string GeneratorVersion = "0.1.0-alpha-*"; // TODO have a way to access what was in the forge project
+
 		public static int Main(string[] args)
 		{
 			var options = ParseOptions(args);
@@ -25,7 +27,7 @@ namespace Adamant.CompilerCompiler.Lex.CLI
 			var minDFA = dfa.Minimize();
 			var codeGen = minDFA.ConvertToCodeGenerator();
 			var skeleton = new CSharpSkeleton();
-			var code = codeGen.GenerateCode(skeleton, "0.1.0-alpha-*");
+			var code = codeGen.GenerateCode(skeleton, GeneratorVersion);
 			var targetPath = Path.Combine(Path.GetDirectoryName(options.FilePath), codeGen.FileName(skeleton));
 			File.WriteAllText(targetPath, code);
 			return 0;
@@ -68,7 +70,7 @@ namespace Adamant.CompilerCompiler.Lex.CLI
 
 		internal static void PrintVersion()
 		{
-			Console.WriteLine("adamant-cc-lex 0.1.0-alpha-*"); // TODO have a way to access what was in the forge project
+			Console.WriteLine($"adamant-cc-lex {GeneratorVersion}");
 			Console.WriteLine($"Unicode v?");
 		}
 	}

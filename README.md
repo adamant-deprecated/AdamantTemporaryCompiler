@@ -2,7 +2,7 @@
 The Adamant compiler is being bootstrapped.  To serve this process, a compiler must first be written in another language. In this case C#. This is that temporary compiler.  It will be thrown away when the compiler is re-written in Adamant.
 
 ## Project Status: Alpha Active
-This is under active development.  It is in a very early stage and there are likely issues and limitations.  APIs are subject to frequent braking changes.
+This is under active development.  It is in a very early stage and there are likely issues and limitations.  APIs are subject to frequent breaking changes.
 
 ### Download and Use
 Clone this git repo and compile using Visual Studio 2015.
@@ -30,6 +30,6 @@ In order to facilitate the later re-write of the compiler into Adamant the follo
 		* Character classes
 	* Create classes and methods that can be translated to Adamant one-to-one
 	* Interfaces are written as needed (rather than for every class as one might think is needed to represent Adamant)
-	* Projects are named after the package they will be re-written to with the leading "Adamant." dropped from the named
+	* Projects are named after the package they will be re-written to
 	* Projects that would be under "System." in Adamant are named "Sys." instead to avoid conflicts with the C# standard library
 	* The "Adamant.Core" project contains classes to bridge the gap between C# and Adamant language features.  For example, `Void` and `CodePoint`
