@@ -57,6 +57,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Adamant.CompilerCompiler.Lex.Runtime\Adamant.CompilerCompiler.Lex.Runtime.csproj">
+      <Project>{8F0F6F98-D891-4741-9AB1-B07E664FA653}</Project>
+      <Name>Adamant.CompilerCompiler.Lex.Runtime</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Adamant.CompilerCompiler.Lex\Adamant.CompilerCompiler.Lex.csproj">
       <Project>{1402E868-7960-4394-A75E-ECDFDBF2326F}</Project>
       <Name>Adamant.CompilerCompiler.Lex</Name>

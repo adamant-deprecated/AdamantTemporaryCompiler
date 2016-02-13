@@ -1,5 +1,7 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using System.Text;
 using Adamant.CompilerCompiler.Lex.CodeGen;
 using Adamant.CompilerCompiler.Lex.SpecParsing;
 using NDesk.Options;
@@ -16,8 +18,14 @@ namespace Adamant.CompilerCompiler.Lex.CLI
 
 			if(options == null) return 1;
 
-			// can't really read the input yet, just going to work from our spec object
+			// First attempts at reading the actual spec file
+			//using(var reader = new StreamReader(File.OpenRead(options.FilePath), Encoding.UTF8))
+			//{
+			//	var lexer = new SpecLexer(reader);
+			//	var tokens = lexer.ToList();
+			//}
 
+			// can't really read the input yet, just going to work from our spec object
 			var spec = ThrowAway.SpecLexerSpec;
 
 			spec.Validate();

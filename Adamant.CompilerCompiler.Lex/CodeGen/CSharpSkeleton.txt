@@ -47,6 +47,10 @@ namespace <%= ClassNamespace %>
 		{
 			<%= Transitions %>
 		};
+		private static readonly <%= ActionMapType %>[] actionMap =
+		{
+			<%= ActionMap %>
+		};
 
 		private const int ErrorState = <%= ErrorState %>;
 
@@ -112,8 +116,16 @@ namespace <%= ClassNamespace %>
 				afterCarriageReturn = TrackLineAndColumn(codePoint, afterCarriageReturn);
 				var equivalenceClass = EquivalenceClass(codePoint);
 				var nextState = transitions[rowMap[currentState] + equivalenceClass];
-				// TODO lookup action for this state
-				// TODO execute the action for this state
+				var action = actionMap[nextState];
+				TokenType? outputTokenType = null;
+				switch(action)
+				{
+					<%= Actions %>
+					default:
+						throw new InvalidOperationException();
+				}
+				if(outputTokenType != null)
+					return new Adamant.CompilerCompiler.Lex.Runtime.Token<<%= ClassName %>.TokenType>(outputTokenType.Value);
 				// TODO generate (or not) the token
 			}
 		}

@@ -27,7 +27,7 @@ namespace Adamant.CompilerCompiler.Lex.Services
 			var nfa = new NFA<LexerAction>(equivalenceClasses.Count);
 			var modeMap = spec.Modes.ToDictionary(m => m, m => nfa.AddState(true));
 
-			// TODO what we actually want here is something more like a didirectional dictionary?
+			// TODO what we actually want here is something more like a bidirectional dictionary?
 			var tokenTypes = spec.Rules.OrderBy(r => r.Name).Select(r => r.Name).ToList();
 			var tokenLookup = new Dictionary<string, int>();
 			for(var i = 0; i < tokenTypes.Count; i++)
@@ -120,7 +120,7 @@ namespace Adamant.CompilerCompiler.Lex.Services
 		{
 			var errorState = lexerDfa.Dfa.MakeComplete();
 
-			// TODO Ruduce Columns (covers equivalent inputs)
+			// TODO Reduce Columns (covers equivalent inputs)
 			// TODO Reduce Rows (is this needed? shouldn't this be gotten by DFA min? Perhaps if we match the same token in two diff modes?)
 			// TODO Use column map when building equivalence table
 			var optimizedEquivalenceTable = Optimize(GenEquivalenceTable(lexerDfa.EquivalenceClasses));
@@ -130,6 +130,11 @@ namespace Adamant.CompilerCompiler.Lex.Services
 
 			var rowMap = new int[dfa.StateCount];
 			var transitions = new int[dfa.StateCount * dfa.InputValueCount];
+			var actionMap = new int[dfa.StateCount];
+			var actionIndexes = new Dictionary<LexerAction, int>();
+			var defaultAction = new LexerAction(0, null, true, false, Enumerable.Empty<LexerModeAction>(), null);
+			actionIndexes.Add(defaultAction, 0);
+			var nextActionIndex = 1;
 			var row = 0;
 			foreach(var state in dfa.States)
 			{
@@ -144,10 +149,20 @@ namespace Adamant.CompilerCompiler.Lex.Services
 					column++;
 				}
 
+				var action = dfa.GetData(state) ?? defaultAction;
+				if(!actionIndexes.ContainsKey(action))
+				{
+					actionIndexes.Add(action, nextActionIndex);
+					nextActionIndex++;
+				}
+				actionMap[row] = actionIndexes[action];
+
 				row++;
 			}
 
-			return new LexerCodeGenerator(lexerDfa.LexerSpec, lexerDfa.ModeMap, errorState.Index, optimizedEquivalenceTable.Item1, optimizedEquivalenceTable.Item2, rowMap, transitions);
+			var actions = actionIndexes.OrderBy(x => x.Value).Select(x => x.Key).ToArray();
+
+			return new LexerCodeGenerator(lexerDfa.LexerSpec, lexerDfa.ModeMap, errorState.Index, optimizedEquivalenceTable.Item1, optimizedEquivalenceTable.Item2, rowMap, transitions, actionMap, actions);
 		}
 
 		/// <summary>
@@ -170,8 +185,8 @@ namespace Adamant.CompilerCompiler.Lex.Services
 		}
 
 		/// <summary>
-		/// This is a fairly simple optimization strategy. Were just going to lay the blocks out in order.
-		/// For each block well try to find the first place it could fit, which may just be the end.
+		/// This is a fairly simple optimization strategy. We're just going to lay the blocks out in order.
+		/// For each block we'll try to find the first place it could fit, which may just be the end.
 		/// </summary>
 		private static Tuple<IDictionary<int, int[]>, IList<Input>> Optimize(IDictionary<int, Input[]> fullEquivalenceTable)
 		{

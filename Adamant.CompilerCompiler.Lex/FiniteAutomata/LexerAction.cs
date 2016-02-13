@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Adamant.CompilerCompiler.Lex.FiniteAutomata
@@ -25,19 +24,34 @@ namespace Adamant.CompilerCompiler.Lex.FiniteAutomata
 
 		public override bool Equals(object obj)
 		{
+			if(ReferenceEquals(null, obj)) return false;
 			if(ReferenceEquals(this, obj)) return true;
-			var other = obj as LexerAction;
-			if(other == null) return false;
+			if(obj.GetType() != GetType()) return false;
+			return Equals((LexerAction)obj);
+		}
+
+		protected bool Equals(LexerAction other)
+		{
 			return TokenType == other.TokenType
-				   && IsMore == other.IsMore
-				   && IsError == other.IsError
-				   && ModeActions.SequenceEqual(other.ModeActions)
-				   && Code == other.Code;
+				&& IsMore == other.IsMore
+				&& IsError == other.IsError
+				&& ModeActions.SequenceEqual(other.ModeActions)
+				&& Code == other.Code;
 		}
 
 		public override int GetHashCode()
 		{
-			throw new NotSupportedException();
+			unchecked
+			{
+				var hashCode = TokenType.GetHashCode();
+				hashCode = (hashCode * 397) ^ IsMore.GetHashCode();
+				hashCode = (hashCode * 397) ^ IsError.GetHashCode();
+				foreach(var modeAction in ModeActions)
+					hashCode = (hashCode * 397) ^ modeAction.GetHashCode();
+
+				hashCode = (hashCode * 397) ^ (Code?.GetHashCode() ?? 0);
+				return hashCode;
+			}
 		}
 	}
 }

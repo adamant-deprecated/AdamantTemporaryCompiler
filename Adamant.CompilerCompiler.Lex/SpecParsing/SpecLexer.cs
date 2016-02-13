@@ -435,6 +435,14 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81
 		};
+		private static readonly byte[] actionMap =
+		{
+			1, 0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
+			19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,
+			35, 36, 3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+			1, 1, 1, 0
+		};
 
 		private const int ErrorState = 81;
 
@@ -500,8 +508,125 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 				afterCarriageReturn = TrackLineAndColumn(codePoint, afterCarriageReturn);
 				var equivalenceClass = EquivalenceClass(codePoint);
 				var nextState = transitions[rowMap[currentState] + equivalenceClass];
-				// TODO lookup action for this state
-				// TODO execute the action for this state
+				var action = actionMap[nextState];
+				TokenType? outputTokenType = null;
+				switch(action)
+				{
+					case 0:
+						break;
+					case 1:
+						outputTokenType = TokenType.Literal;
+						break;
+					case 2:
+						break;
+					case 3:
+						outputTokenType = TokenType.Char;
+						break;
+					case 4:
+						outputTokenType = TokenType.Channels;
+						break;
+					case 5:
+						outputTokenType = TokenType.Repetition;
+						break;
+					case 6:
+						outputTokenType = TokenType.Identifier;
+						break;
+					case 7:
+						outputTokenType = TokenType.Definition;
+						break;
+					case 8:
+						outputTokenType = TokenType.Alternation;
+						break;
+					case 9:
+						outputTokenType = TokenType.BeginningOfLine;
+						break;
+					case 10:
+						outputTokenType = TokenType.AnyChar;
+						break;
+					case 11:
+						outputTokenType = TokenType.Optional;
+						break;
+					case 12:
+						outputTokenType = TokenType.Complement;
+						break;
+					case 13:
+						outputTokenType = TokenType.Intersection;
+						break;
+					case 14:
+						outputTokenType = TokenType.Subtraction;
+						break;
+					case 15:
+						outputTokenType = TokenType.Upto;
+						break;
+					case 16:
+						outputTokenType = TokenType.BeginGroup;
+						break;
+					case 17:
+						outputTokenType = TokenType.EndGroup;
+						break;
+					case 18:
+						outputTokenType = TokenType.EndOfLine;
+						break;
+					case 19:
+						outputTokenType = TokenType.BeginQuantifier;
+						break;
+					case 20:
+						outputTokenType = TokenType.EndQuantifier;
+						break;
+					case 21:
+						outputTokenType = TokenType.Terminator;
+						break;
+					case 22:
+						outputTokenType = TokenType.Comma;
+						break;
+					case 23:
+						outputTokenType = TokenType.Number;
+						break;
+					case 24:
+						outputTokenType = TokenType.UnexpectedCodePoint;
+						break;
+					case 25:
+						currentMode = modeStack.Pop();
+						outputTokenType = TokenType.EndCharClass;
+						break;
+					case 26:
+						outputTokenType = TokenType.BeginCommands;
+						break;
+					case 27:
+						outputTokenType = TokenType.Substitute;
+						break;
+					case 28:
+						outputTokenType = TokenType.Skip;
+						break;
+					case 29:
+						outputTokenType = TokenType.Mode;
+						break;
+					case 30:
+						outputTokenType = TokenType.More;
+						break;
+					case 31:
+						outputTokenType = TokenType.Modes;
+						break;
+					case 32:
+						outputTokenType = TokenType.Lexer;
+						break;
+					case 33:
+						outputTokenType = TokenType.Decode;
+						break;
+					case 34:
+						outputTokenType = TokenType.PopMode;
+						break;
+					case 35:
+						outputTokenType = TokenType.Capture;
+						break;
+					case 36:
+						outputTokenType = TokenType.PushMode;
+						break;
+					default:
+						throw new InvalidOperationException();
+				}
+				if(outputTokenType != null)
+					return new Adamant.CompilerCompiler.Lex.Runtime.Token<SpecLexer.TokenType>(outputTokenType.Value);
 				// TODO generate (or not) the token
 			}
 		}

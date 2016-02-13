@@ -31,5 +31,16 @@
 		{
 			return Value.GetHashCode();
 		}
+
+		public bool Equals(Input other)
+		{
+			return Value == other.Value;
+		}
+
+		public override bool Equals(object obj)
+		{
+			if(ReferenceEquals(null, obj)) return false;
+			return obj is Input && Equals((Input)obj);
+		}
 	}
 }

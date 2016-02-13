@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Adamant.CompilerCompiler.Lex.CodeGen;
+using Adamant.CompilerCompiler.Lex.FiniteAutomata;
+using Adamant.CompilerCompiler.Lex.FiniteAutomata.ModeActions;
 using Adamant.CompilerCompiler.Lex.Spec;
 using Adamant.FiniteAutomata;
 
@@ -19,8 +21,19 @@ namespace Adamant.CompilerCompiler.Lex
 		private readonly IList<Input> equivalenceTable;
 		private readonly int[] rowMap;
 		private readonly int[] transitions;
+		private readonly int[] actionMap;
+		private readonly LexerAction[] actions;
 
-		public LexerCodeGenerator(LexerSpec lexerSpec, IReadOnlyDictionary<Mode, State> modeMap, int errorState, IDictionary<int, int[]> planeOffsets, IList<Input> equivalenceTable, int[] rowMap, int[] transitions)
+		public LexerCodeGenerator(
+			LexerSpec lexerSpec,
+			IReadOnlyDictionary<Mode, State> modeMap,
+			int errorState,
+			IDictionary<int, int[]> planeOffsets,
+			IList<Input> equivalenceTable,
+			int[] rowMap,
+			int[] transitions,
+			int[] actionMap,
+			LexerAction[] actions)
 		{
 			this.lexerSpec = lexerSpec;
 			this.modeMap = modeMap;
@@ -29,6 +42,8 @@ namespace Adamant.CompilerCompiler.Lex
 			this.equivalenceTable = equivalenceTable;
 			this.rowMap = rowMap;
 			this.transitions = transitions;
+			this.actionMap = actionMap;
+			this.actions = actions;
 		}
 
 		public string FileName(Skeleton skeleton)
@@ -57,6 +72,9 @@ namespace Adamant.CompilerCompiler.Lex
 			template = Replace(template, "StateType", GenDataType(skeleton, transitions.Max()));
 			// TODO need to create an error state so that we don't need to put negative values in the table
 			template = Replace(template, "Transitions", GenInts(transitions));
+			template = Replace(template, "ActionMapType", GenDataType(skeleton, actionMap.Max()));
+			template = Replace(template, "ActionMap", GenInts(actionMap));
+			template = Replace(template, "Actions", GenActions(skeleton).ToList());
 			return template;
 		}
 
@@ -166,6 +184,35 @@ namespace Adamant.CompilerCompiler.Lex
 		private ICollection<string> GenTokenTypes()
 		{
 			return GenCommaSeparatedLines(lexerSpec.Rules.OrderBy(r => r.Name).Select(r => r.Name)).ToList();
+		}
+
+		private IEnumerable<string> GenActions(Skeleton skeleton)
+		{
+			// TODO it is strange we have to rebuild this lookup
+			var tokenTypes = lexerSpec.Rules.OrderBy(r => r.Name).Select(r => r.Name).ToList();
+
+			for(var i = 0; i < actions.Length; i++)
+			{
+				var action = actions[i];
+				yield return $"case {i}:";
+				foreach(var modeAction in action.ModeActions)
+				{
+					if(modeAction == LexerModeAction.Pop)
+						yield return "	currentMode = modeStack.Pop();";
+					else if(modeAction == LexerModeAction.Push)
+						yield return "	modeStack.Pop(currentMode);";
+					else
+					{
+						var mode = ((SetMode)modeAction).Mode;
+						yield return $"	currentMode = Mode.({mode});";
+					}
+				}
+				if(action.TokenType != null)
+					yield return $"	outputTokenType = TokenType.{tokenTypes[action.TokenType.Value]};";
+				if(action.Code != null)
+					yield return action.Code;
+				yield return "	break;";
+			}
 		}
 	}
 }
