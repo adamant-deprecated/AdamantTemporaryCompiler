@@ -29,12 +29,24 @@ namespace Adamant.CompilerCompiler.Lex
 			{
 				var rule = spec.Rules[i];
 				var endState = AddStates(rule, modeMap, equivalenceClasses, nfa);
-				var tokenType = GetTokenType(rule, tokenLookup);
-				var isMore = rule.Commands.Contains(Command.More);
-				var isError = rule.Commands.Contains(Command.FlagError);
+				// Input Action
+				var inputAction = LexerInputAction.Ignore; // TODO put the right thing here
+
+				// Mode Actions
 				var modeActions = GetModeActions(rule.Commands);
+
+				// Emit Actions
+				LexerEmitAction emitAction;
+				if(rule.Commands.Contains(Command.More))
+					emitAction = LexerEmitAction.Nothing;
+				else if(rule.Commands.Contains(Command.Skip))
+					emitAction = LexerEmitAction.Skip;
+				else
+					// TODO handle channel correctly
+					emitAction = LexerEmitAction.Token(0, GetTokenType(rule, tokenLookup).Value, rule.Commands.Contains(Command.FlagError));
+
 				var code = rule.Commands.OfType<CodeActionCommand>().SingleOrDefault()?.Code;
-				nfa.SetData(endState, new LexerAction(i, tokenType, isMore, isError, modeActions, code));
+				nfa.SetData(endState, new LexerAction(i, inputAction, modeActions, emitAction, code));
 			}
 
 			return new LexerNFA(spec, modeMap, equivalenceClasses, nfa);
@@ -124,7 +136,7 @@ namespace Adamant.CompilerCompiler.Lex
 			var transitions = new int[dfa.StateCount * dfa.InputValueCount];
 			var actionMap = new int[dfa.StateCount];
 			var actionIndexes = new Dictionary<LexerAction, int>();
-			var defaultAction = new LexerAction(0, null, true, false, Enumerable.Empty<LexerModeAction>(), null);
+			var defaultAction = new LexerAction(0, LexerInputAction.Ignore, Enumerable.Empty<LexerModeAction>(), LexerEmitAction.Nothing, null);
 			actionIndexes.Add(defaultAction, 0);
 			var nextActionIndex = 1;
 			var row = 0;

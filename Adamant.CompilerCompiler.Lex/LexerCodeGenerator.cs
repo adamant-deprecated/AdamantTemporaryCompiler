@@ -6,6 +6,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Adamant.CompilerCompiler.Lex.CodeGen;
 using Adamant.CompilerCompiler.Lex.FiniteAutomata;
+using Adamant.CompilerCompiler.Lex.FiniteAutomata.EmitActions;
+using Adamant.CompilerCompiler.Lex.FiniteAutomata.InputActions;
 using Adamant.CompilerCompiler.Lex.FiniteAutomata.ModeActions;
 using Adamant.CompilerCompiler.Lex.Spec;
 using Adamant.FiniteAutomata;
@@ -201,6 +203,27 @@ namespace Adamant.CompilerCompiler.Lex
 			{
 				var action = actions[i];
 				yield return $"case {i}:";
+				// Lexer Input Action
+				DecodeValue decodeAction;
+				CaptureValue valueAction;
+				if(action.InputAction == LexerInputAction.Capture)
+					yield return "	tokenBuffer.Append(codePoint);";
+				else if(action.InputAction == LexerInputAction.CaptureForDecode)
+					yield return "	decodeBuffer.Append(codePoint);";
+				else if((decodeAction = action.InputAction as DecodeValue) != null)
+				{
+					yield return $"	tokenBuffer.Append(Decode(decodeBuffer.ToString(), {decodeAction.Base}));";
+					yield return "	decodeBuffer.Clear();";
+				}
+				else if((valueAction = action.InputAction as CaptureValue) != null)
+					yield return $"	tokenBuffer.Append(\"{valueAction.Value}\");";
+				else if(action.InputAction == LexerInputAction.Ignore)
+				{
+					// Nothing to do on ignore
+				}
+				else
+					throw new NotSupportedException($"Unsupported LexerInputAction type '{action.InputAction.GetType().FullName}'");
+
 				foreach(var modeAction in action.ModeActions)
 				{
 					if(modeAction == LexerModeAction.Pop)
@@ -213,10 +236,16 @@ namespace Adamant.CompilerCompiler.Lex
 						yield return $"	currentMode = Mode.({mode});";
 					}
 				}
-				if(action.TokenType != null)
-					yield return $"	outputTokenType = TokenType.{tokenTypes[action.TokenType.Value]};";
+				EmitToken emitAction;
+				if((emitAction = action.EmitAction as EmitToken) != null)
+				{
+					yield return $"	token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.{tokenTypes[emitAction.TokenType]}, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());";
+					yield return $"	tokenBuffer.Clear();";
+				}
+
 				if(action.Code != null)
 					yield return action.Code;
+
 				yield return "	break;";
 			}
 		}

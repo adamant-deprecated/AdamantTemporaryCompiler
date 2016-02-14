@@ -62,7 +62,8 @@ namespace <%= ClassNamespace %>
 		private readonly TextReader reader;
 		private Mode currentMode = Mode.<%= InitialMode %>;
 		private Stack<Mode> modeStack = new Stack<Mode>();
-		private readonly StringBuilder buffer = new StringBuilder();
+		private readonly StringBuilder tokenBuffer = new StringBuilder();
+		private readonly StringBuilder decodeBuffer = new StringBuilder();
 		private int currentLine = 0;
 		private int currentColumn = 0;
 		private int currentCodepoint = 0;
@@ -122,7 +123,7 @@ namespace <%= ClassNamespace %>
 				var equivalenceClass = EquivalenceClass(codePoint);
 				var nextState = transitions[rowMap[currentState] + equivalenceClass];
 				var action = actionMap[nextState];
-				TokenType? outputTokenType = null;
+				Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType> token = null;
 				switch(action)
 				{
 					<%= Actions %>
@@ -131,8 +132,8 @@ namespace <%= ClassNamespace %>
 				}
 
 				// TODO generate (or not) the token
-				if(outputTokenType != null)
-					return new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, outputTokenType.Value, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), null);
+				if(token != null)
+					return token;
 			}
 		}
 

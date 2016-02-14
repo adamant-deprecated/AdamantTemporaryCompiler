@@ -44,6 +44,16 @@
     <Compile Include="CodeGen\CSharpSkeleton.cs" />
     <Compile Include="CodeGen\DataType.cs" />
     <Compile Include="CodeGen\Skeleton.cs" />
+    <Compile Include="FiniteAutomata\EmitActions\EmitNothing.cs" />
+    <Compile Include="FiniteAutomata\EmitActions\EmitToken.cs" />
+    <Compile Include="FiniteAutomata\EmitActions\SkipToken.cs" />
+    <Compile Include="FiniteAutomata\InputActions\DecodeValue.cs" />
+    <Compile Include="FiniteAutomata\InputActions\CaptureInputForDecode.cs" />
+    <Compile Include="FiniteAutomata\InputActions\CaptureInput.cs" />
+    <Compile Include="FiniteAutomata\InputActions\CaptureValue.cs" />
+    <Compile Include="FiniteAutomata\InputActions\IgnoreInput.cs" />
+    <Compile Include="FiniteAutomata\LexerEmitAction.cs" />
+    <Compile Include="FiniteAutomata\LexerInputAction.cs" />
     <Compile Include="FiniteAutomata\LexerAction.cs" />
     <Compile Include="FiniteAutomata\CodePointEquivalenceClasses.cs" />
     <Compile Include="FiniteAutomata\LexerModeAction.cs" />

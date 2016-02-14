@@ -42,7 +42,7 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 
 		public enum Mode
 		{
-			Default = 38, CharacterClass = 37
+			Default = 2, CharacterClass = 38
 		}
 
 		private static readonly ushort[] plane0Offsets =
@@ -130,37 +130,10 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 3, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 3, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 0, 81, 0, 81, 81, 81, 81, 81, 0, 81, 81,
-			81, 81, 81, 0, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 0, 81, 81,
-			81, 81, 81, 81, 0, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 0, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			0, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 0, 81, 81, 81, 81, 81, 81, 81, 6, 6, 6, 6,
-			81, 6, 81, 81, 81, 81, 81, 81, 81, 81, 81, 6, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 6, 81, 81, 6,
-			81, 81, 6, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 0, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 61,
+			7, 7, 7, 7, 7, 81, 81, 81, 81, 7, 81, 7, 7, 7, 7, 7, 7, 7, 7, 7,
+			81, 8, 9, 81, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 81,
+			22, 23, 24, 25, 25, 81, 7, 81, 81, 7, 7, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
@@ -173,39 +146,17 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 0, 81, 0, 81, 81, 81, 81, 81, 0, 81, 81, 81,
+			81, 81, 0, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81,
+			81, 81, 81, 0, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 0, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81, 81,
+			81, 81, 7, 7, 7, 7, 81, 7, 81, 81, 81, 81, 81, 81, 81, 81, 81, 7,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 7, 81, 81, 7, 81, 81, 7, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 26, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			0, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			0, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 0, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			0, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 0, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
@@ -222,10 +173,6 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 0, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 0, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 0,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
@@ -234,163 +181,216 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 31, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 0, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 27, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 0, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 0, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 0, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 0,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 0, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 0, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 25, 3, 3, 3, 3, 3, 3, 3,
-			3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-			3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 81, 3, 3, 3, 3, 3, 3, 3, 3,
-			3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 81, 81, 5, 2, 2, 2, 2, 2, 2, 2,
-			2, 2, 61, 6, 6, 6, 6, 6, 81, 81, 81, 81, 6, 81, 6, 6, 6, 6, 6, 6,
-			6, 6, 6, 81, 7, 8, 81, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-			20, 81, 21, 22, 23, 24, 24, 81, 6, 81, 81, 6, 6, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 4, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 28, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 27, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 36, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 45, 81, 81, 81, 81, 81, 46, 81,
+			81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			39, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 29, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81,
-			81, 81, 81, 30, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 32, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 33,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 34, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 35, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 40, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 0, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 0, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 51, 81, 81, 41, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 50, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 32, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 42, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 47, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 0, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			0, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 43, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			0, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 53, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 0,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 44, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 26, 3, 3,
+			3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
+			3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 81, 3, 3, 3,
+			3, 3, 3, 3, 3, 3, 3, 3, 1, 3, 3, 3, 3, 3, 3, 3, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 4, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 0, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 48, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 29, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 49, 81, 0, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 28, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 52, 81, 81,
-			80, 81, 81, 77, 81, 75, 81, 81, 81, 81, 56, 81, 81, 69, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 37, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 45, 81, 81, 81, 81, 81, 46, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 39,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 30, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81, 81,
+			81, 81, 31, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 33, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 34, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 35, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 36, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 40, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			51, 81, 81, 41, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 50, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 42, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			47, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 0,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			43, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 0,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 53, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 0, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 54, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 55, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 44, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 57, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 0, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 48, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 0, 81, 81, 58, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 59, 81, 81, 81,
+			81, 81, 81, 81, 49, 81, 0, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 52, 81, 81, 80,
+			81, 81, 77, 81, 75, 81, 81, 81, 81, 56, 81, 81, 69, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 0, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 60, 81, 81, 81, 81, 81,
+			81, 81, 81, 54, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 55, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 62, 81,
+			81, 57, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			81, 81, 81, 81, 63, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
-			0, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81,
+			81, 81, 81, 0, 81, 81, 58, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 59, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 60, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 62, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
+			81, 81, 81, 63, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 0,
+			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 0, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 64, 81, 81,
 			81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81, 81,
@@ -444,7 +444,7 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 		{
 			1, 0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
 			19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,
-			35, 36, 3, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+			35, 36, 37, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
 			1, 1, 1, 0
 		};
@@ -454,7 +454,8 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 		private readonly TextReader reader;
 		private Mode currentMode = Mode.Default;
 		private Stack<Mode> modeStack = new Stack<Mode>();
-		private readonly StringBuilder buffer = new StringBuilder();
+		private readonly StringBuilder tokenBuffer = new StringBuilder();
+		private readonly StringBuilder decodeBuffer = new StringBuilder();
 		private int currentLine = 0;
 		private int currentColumn = 0;
 		private int currentCodepoint = 0;
@@ -514,126 +515,163 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 				var equivalenceClass = EquivalenceClass(codePoint);
 				var nextState = transitions[rowMap[currentState] + equivalenceClass];
 				var action = actionMap[nextState];
-				TokenType? outputTokenType = null;
+				Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType> token = null;
 				switch(action)
 				{
 					case 0:
 						break;
 					case 1:
-						outputTokenType = TokenType.Literal;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Literal, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 2:
 						break;
 					case 3:
-						outputTokenType = TokenType.Char;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Char, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 4:
-						outputTokenType = TokenType.Channels;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Channels, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 5:
-						outputTokenType = TokenType.Repetition;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Repetition, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 6:
-						outputTokenType = TokenType.Identifier;
 						break;
 					case 7:
-						outputTokenType = TokenType.Definition;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Identifier, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 8:
-						outputTokenType = TokenType.Alternation;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Definition, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 9:
-						outputTokenType = TokenType.BeginningOfLine;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Alternation, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 10:
-						outputTokenType = TokenType.AnyChar;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.BeginningOfLine, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 11:
-						outputTokenType = TokenType.Optional;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.AnyChar, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 12:
-						outputTokenType = TokenType.Complement;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Optional, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 13:
-						outputTokenType = TokenType.Intersection;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Complement, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 14:
-						outputTokenType = TokenType.Subtraction;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Intersection, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 15:
-						outputTokenType = TokenType.Upto;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Subtraction, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 16:
-						outputTokenType = TokenType.BeginGroup;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Upto, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 17:
-						outputTokenType = TokenType.EndGroup;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.BeginGroup, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 18:
-						outputTokenType = TokenType.EndOfLine;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.EndGroup, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 19:
-						outputTokenType = TokenType.BeginQuantifier;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.EndOfLine, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 20:
-						outputTokenType = TokenType.EndQuantifier;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.BeginQuantifier, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 21:
-						outputTokenType = TokenType.Terminator;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.EndQuantifier, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 22:
-						outputTokenType = TokenType.Comma;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Terminator, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 23:
-						outputTokenType = TokenType.Number;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Comma, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 24:
-						outputTokenType = TokenType.UnexpectedCodePoint;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Number, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 25:
-						currentMode = modeStack.Pop();
-						outputTokenType = TokenType.EndCharClass;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.UnexpectedCodePoint, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 26:
-						outputTokenType = TokenType.BeginCommands;
+						currentMode = modeStack.Pop();
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.EndCharClass, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 27:
-						outputTokenType = TokenType.Substitute;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.BeginCommands, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 28:
-						outputTokenType = TokenType.Skip;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Substitute, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 29:
-						outputTokenType = TokenType.Mode;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Skip, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 30:
-						outputTokenType = TokenType.More;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Mode, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 31:
-						outputTokenType = TokenType.Modes;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.More, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 32:
-						outputTokenType = TokenType.Lexer;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Modes, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 33:
-						outputTokenType = TokenType.Decode;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Lexer, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 34:
-						outputTokenType = TokenType.PopMode;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Decode, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 35:
-						outputTokenType = TokenType.Capture;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.PopMode, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					case 36:
-						outputTokenType = TokenType.PushMode;
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Capture, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
+						break;
+					case 37:
+						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.PushMode, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());
+						tokenBuffer.Clear();
 						break;
 					default:
 						throw new InvalidOperationException();
 				}
 
 				// TODO generate (or not) the token
-				if(outputTokenType != null)
-					return new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, outputTokenType.Value, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), null);
+				if(token != null)
+					return token;
 			}
 		}
 
