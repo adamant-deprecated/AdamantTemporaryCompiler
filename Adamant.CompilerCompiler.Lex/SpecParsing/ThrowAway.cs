@@ -26,7 +26,7 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 			{
 				// Comments
 				new RuleSpec(initial, "Comment",("/*" + ~R("*/")) |("//" + ~newline), Command.Skip),
-				new RuleSpec(initial, "WhiteSpace", whitespace.Repeat(), Command.Skip ),
+				new RuleSpec(initial, "WhiteSpace", whitespace.Repeat(), Command.Skip),
 	
 				// Functions
 				new RuleSpec(initial, "Skip", "@skip"), // Also an action
@@ -70,7 +70,7 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 				// Terminals
 				new RuleSpec(initial, "Number", "0" | (Class('1','9')+digit)),
 				new RuleSpec(initial, "Identifier", (Class('a','z')|Class('A','Z'))+(Class('a','z')|Class('A','Z')|digit).Repeat()),
-				new RuleSpec(initial, "Literal", R("\"").Skip()+new RuleReferenceSpec("literalChar").RepeatAtLeast(1)+R("\"").Skip() | new RuleReferenceSpec("escapeChar")),
+				new RuleSpec(initial, "Literal", R("\"")+new RuleReferenceSpec("literalChar").RepeatAtLeast(1).Capture()+R("\"") | new RuleReferenceSpec("escapeChar")),
 				new RuleSpec(initial, "literalChar", new RuleReferenceSpec("escapeChar") | !(R("\\")|"\"")),
 
 				new RuleSpec(initial, "Category", R("\\R")|"\\s"|"\\d"),
@@ -89,10 +89,10 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 					| R("\\{").Sub("{")
 					| R("\\'").Sub("'")
 					| R("\\\\").Sub("\\")
-					| (R("\\x").Skip()+hexDigit.Repeat(2).Decode(16))
-					| (R("\\u").Skip()+hexDigit.Repeat(4).Decode(16))
-					| (R("\\U").Skip()+hexDigit.Repeat(6).Decode(16))
-					| (R("\\u{").Skip()+hexDigit.Repeat(1,6).Decode(16)+R("}").Skip())),
+					| (R("\\x")+hexDigit.Repeat(2).Decode(16))
+					| (R("\\u")+hexDigit.Repeat(4).Decode(16))
+					| (R("\\U")+hexDigit.Repeat(6).Decode(16))
+					| (R("\\u{")+hexDigit.Repeat(1,6).Decode(16)+R("}"))),
 
 				// Fallback
 				new RuleSpec(initial, "UnexpectedCodePoint", new CharClassSpec(InversionListCodePointSet.All), Command.FlagError),

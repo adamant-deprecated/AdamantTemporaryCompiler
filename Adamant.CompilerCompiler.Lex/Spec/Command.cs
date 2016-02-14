@@ -29,6 +29,7 @@ namespace Adamant.CompilerCompiler.Lex.Spec
 		{
 			return new CodeActionCommand(code);
 		}
+		// TODO SetChannel
 		#endregion
 
 		public virtual Mode ModeEntered()

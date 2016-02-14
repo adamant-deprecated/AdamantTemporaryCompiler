@@ -17,7 +17,6 @@ namespace Adamant.CompilerCompiler.Lex.Spec.Regexes.Functions
 
 		public override States AddTo<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses)
 		{
-			// TODO how to actually handle skip
 			return Expression.AddTo(nfa, equivalenceClasses);
 		}
 

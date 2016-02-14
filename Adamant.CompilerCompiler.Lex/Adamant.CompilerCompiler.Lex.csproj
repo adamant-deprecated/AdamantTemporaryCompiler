@@ -83,7 +83,6 @@
     <Compile Include="Spec\Regexes\FunctionSpec.cs" />
     <Compile Include="Spec\Regexes\Functions\CaptureFunctionSpec.cs" />
     <Compile Include="Spec\Regexes\Functions\DecodeFunctionSpec.cs" />
-    <Compile Include="Spec\Regexes\Functions\SkipFunctionSpec.cs" />
     <Compile Include="Spec\Regexes\Functions\SubstituteFunctionSpec.cs" />
     <Compile Include="Spec\Regexes\IntersectionSpec.cs" />
     <Compile Include="Spec\Regexes\LiteralSpec.cs" />

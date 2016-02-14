@@ -22,18 +22,18 @@ PopMode: "@popMode";
 Type: "@type";
 Channel: "@channel";
 Error: "@error";
-Action: @skip("<%") ~@skip("%>");
+Action: @capture("<%" ~"%>");
 
 // Keywords
 Lexer = "@lexer";
 Modes = "@modes";
 Channels = "@channels";
-InvalidKeyword = "@" Identifier -> @error;
+InvalidKeyword = "@" @capture(Identifier) -> @error;
 
 // Expression Operators
 Definition: ":";
 Alternation: "|";
-BeginCharClass: "[" "^"? -> @pushMode(CharacterClass);
+BeginCharClass: "[" @capture("^"?) -> @pushMode(CharacterClass);
 AnyChar: ".";
 Optional: "?";
 Complement: "!";
@@ -52,10 +52,10 @@ Terminator: ";";
 Comma: ",";
 
 // Terminals
-Number: "0" | [1-9]\d;
-Identifier: [a-zA-Z][a-zA-Z0-9_]*;  // simplified from \p{Letter}[\p{Letter}\d_]*
+Number: @capture("0" | [1-9]\d*);
+Identifier: @capture([a-zA-Z][a-zA-Z0-9_]*);  // simplified from \p{Letter}[\p{Letter}\d_]*
 Literal:
-	@skip(\") literalChar+ @skip(\")
+	\" @capture(literalChar+) \"
 	| escapeChar
 	;
 
@@ -86,10 +86,10 @@ escapeChar:				// These string escapes match Adamant
 	| @sub(\\\{, \{)
 	| @sub(\\\', \')
 	| @sub(\\\\, \\)
-	| @skip("\\x") @decode(hexDigit{2}, 16)
-	| @skip("\\u") @decode(hexDigit{4}, 16)
-	| @skip("\\U") @decode(hexDigit{6}, 16)
-	| @skip("\\u{") @decode(hexDigit{1,6}, 16) @skip("}")
+	| "\\x" @decode(hexDigit{2}, 16)
+	| "\\u" @decode(hexDigit{4}, 16)
+	| "\\U" @decode(hexDigit{6}, 16)
+	| "\\u{" @decode(hexDigit{1,6}, 16) "}"
 	;
 
 hexDigit: [a-fA-F0-9];
@@ -99,6 +99,6 @@ UnexpectedCodePoint: [^] -> @error;
 
 // Character Classes
 @modes CharacterClass;
-Char: escapeChar | [^\\\-\]] | @sub("\\-", "-") |  @sub("\\]", "]"); // TODO control chars and newlines // Simplified around Unicode
-CharRange: Char "-" Char;
+Char: escapeChar | @capture([^\\\-\]]) | @sub("\\-", "-") |  @sub("\\]", "]"); // TODO control chars and newlines // Simplified around Unicode
+CharRange: @capture(Char "-" Char);
 EndCharClass: "]" -> @popMode(CharacterClass);

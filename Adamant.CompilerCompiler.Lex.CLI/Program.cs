@@ -1,7 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
-using System.Text;
 using Adamant.CompilerCompiler.Lex.CodeGen;
 using Adamant.CompilerCompiler.Lex.SpecParsing;
 using NDesk.Options;

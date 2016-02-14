@@ -75,19 +75,19 @@ namespace Adamant.CompilerCompiler.Lex.Spec.Regexes
 			return new RepetitionSpec(this, min, max);
 		}
 
-		public RegexSpec Skip()
+		public RegexSpec Capture()
 		{
-			return new SkipFunctionSpec(this);
-		}
-
-		public RegexSpec Sub(string value)
-		{
-			return new SubstituteFunctionSpec(this, value);
+			return new CaptureFunctionSpec(this);
 		}
 
 		public RegexSpec Decode(int @base)
 		{
 			return new DecodeFunctionSpec(this, @base);
+		}
+
+		public RegexSpec Sub(string value)
+		{
+			return new SubstituteFunctionSpec(this, value);
 		}
 		#endregion
 	}
