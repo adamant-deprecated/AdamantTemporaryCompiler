@@ -26,7 +26,7 @@ namespace Adamant.CompilerCompiler.Lex.Spec.Regexes
 			equivalenceClasses.MakeClasses(Value);
 		}
 
-		public override States AddTo<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses)
+		public override StateRange AddTo<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses)
 		{
 			var startState = nfa.AddState();
 			var endState = startState;
@@ -36,7 +36,7 @@ namespace Adamant.CompilerCompiler.Lex.Spec.Regexes
 				endState = nfa.AddState();
 				nfa.AddTransition(lastState, equivalenceClasses.GetClass(codePoint), endState);
 			}
-			return new States(startState, endState);
+			return new StateRange(startState, endState);
 		}
 
 		public override string ToString()

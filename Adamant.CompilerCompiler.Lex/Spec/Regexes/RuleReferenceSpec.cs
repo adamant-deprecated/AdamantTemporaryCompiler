@@ -29,7 +29,7 @@ namespace Adamant.CompilerCompiler.Lex.Spec.Regexes
 			throw new NotSupportedException("RuleReference should be simplified away before making equivalence classes");
 		}
 
-		public override States AddTo<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses)
+		public override StateRange AddTo<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses)
 		{
 			throw new NotSupportedException("Adding RuleReference to NFA not supported, should be simplified away");
 		}

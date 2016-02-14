@@ -18,7 +18,7 @@ namespace Adamant.CompilerCompiler.Lex.Spec.Regexes.Functions
 			return changed ? new DecodeFunctionSpec(exp, Base) : this;
 		}
 
-		public override States AddTo<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses)
+		public override StateRange AddTo<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses)
 		{
 			// TODO how to actually handle decode
 			return Expression.AddTo(nfa, equivalenceClasses);

@@ -18,7 +18,7 @@ namespace Adamant.CompilerCompiler.Lex.Spec.Regexes.Functions
 			return changed ? new SubstituteFunctionSpec(exp, value) : this;
 		}
 
-		public override States AddTo<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses)
+		public override StateRange AddTo<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses)
 		{
 			// TODO how to actually handle substitute
 			return Expression.AddTo(nfa, equivalenceClasses);

@@ -40,7 +40,7 @@ namespace Adamant.CompilerCompiler.Lex.Spec.Regexes
 
 		public override string Operator => "|";
 
-		public override States AddTo<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses)
+		public override StateRange AddTo<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses)
 		{
 			var startState = nfa.AddState();
 			var endState = nfa.AddState();
@@ -49,7 +49,7 @@ namespace Adamant.CompilerCompiler.Lex.Spec.Regexes
 				nfa.AddEpsilonTransition(startState, states.Start);
 				nfa.AddEpsilonTransition(states.End, endState);
 			}
-			return new States(startState, endState);
+			return new StateRange(startState, endState);
 		}
 	}
 }

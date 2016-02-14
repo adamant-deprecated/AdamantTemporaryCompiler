@@ -25,7 +25,7 @@ namespace Adamant.CompilerCompiler.Lex.Spec.Regexes
 			return changed ? new ComplementSpec(exp) : this;
 		}
 
-		public override States AddTo<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses)
+		public override StateRange AddTo<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses)
 		{
 			// Create a separate NFA
 			var tempNFA = new NFA<State?>(equivalenceClasses.Count);
@@ -60,7 +60,7 @@ namespace Adamant.CompilerCompiler.Lex.Spec.Regexes
 				}
 			}
 
-			return new States(startState, endState);
+			return new StateRange(startState, endState);
 		}
 
 		private static State GetMatchingState<T>(NFA<T> nfa, DFA<State?> dfa, State dfaState)

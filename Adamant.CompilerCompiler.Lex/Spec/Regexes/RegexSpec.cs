@@ -22,7 +22,7 @@ namespace Adamant.CompilerCompiler.Lex.Spec.Regexes
 
 		public abstract void MakeEquivalenceClasses(CodePointEquivalenceClasses equivalenceClasses);
 
-		public abstract States AddTo<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses);
+		public abstract StateRange AddTo<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses);
 
 		#region Operators // TODO this should really be some other builder type or something
 		public static implicit operator RegexSpec(string literal)

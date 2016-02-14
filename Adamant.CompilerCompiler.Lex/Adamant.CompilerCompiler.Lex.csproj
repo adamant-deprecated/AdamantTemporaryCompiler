@@ -50,7 +50,7 @@
     <Compile Include="FiniteAutomata\ModeActions\PopMode.cs" />
     <Compile Include="FiniteAutomata\ModeActions\PushMode.cs" />
     <Compile Include="FiniteAutomata\ModeActions\SetMode.cs" />
-    <Compile Include="FiniteAutomata\States.cs" />
+    <Compile Include="FiniteAutomata\StateRange.cs" />
     <Compile Include="LexerCodeGenerator.cs" />
     <Compile Include="LexerDFA.cs" />
     <Compile Include="LexerNFA.cs" />

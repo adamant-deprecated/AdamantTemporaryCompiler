@@ -22,7 +22,7 @@ namespace Adamant.CompilerCompiler.Lex.Spec.Regexes
 
 		public override string Operator => "-";
 
-		public override States AddTo<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses)
+		public override StateRange AddTo<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses)
 		{
 			throw new NotSupportedException("Adding Difference to NFA not supported, should be simplified away");
 		}

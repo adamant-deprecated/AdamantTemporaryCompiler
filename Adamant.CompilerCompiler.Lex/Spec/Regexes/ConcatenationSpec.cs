@@ -20,12 +20,12 @@ namespace Adamant.CompilerCompiler.Lex.Spec.Regexes
 
 		public override string Operator => " ";
 
-		public override States AddTo<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses)
+		public override StateRange AddTo<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses)
 		{
 			return Expressions.Select(exp => exp.AddTo(nfa, equivalenceClasses)).Aggregate((states1, states2) =>
 			{
 				nfa.AddEpsilonTransition(states1.End, states2.Start);
-				return new States(states1.End, states2.Start);
+				return new StateRange(states1.End, states2.Start);
 			});
 		}
 	}

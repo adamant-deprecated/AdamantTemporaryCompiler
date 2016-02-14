@@ -22,7 +22,7 @@ namespace Adamant.CompilerCompiler.Lex.Spec.Regexes
 			return expanded.Simplify(lexerSpec);
 		}
 
-		public override States AddTo<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses)
+		public override StateRange AddTo<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses)
 		{
 			throw new NotSupportedException("Adding Upto to NFA not supported, should be simplified away");
 		}

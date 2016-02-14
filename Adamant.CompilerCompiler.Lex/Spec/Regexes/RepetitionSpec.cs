@@ -26,7 +26,7 @@ namespace Adamant.CompilerCompiler.Lex.Spec.Regexes
 			return changed ? new RepetitionSpec(exp, MinRepititions, MaxRepititions) : this;
 		}
 
-		public override States AddTo<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses)
+		public override StateRange AddTo<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses)
 		{
 			var reps = AddReps(nfa, equivalenceClasses).ToList();
 
@@ -40,11 +40,11 @@ namespace Adamant.CompilerCompiler.Lex.Spec.Regexes
 			return reps.Aggregate((states1, states2) =>
 			{
 				nfa.AddEpsilonTransition(states1.End, states2.Start);
-				return new States(states1.Start, states2.End);
+				return new StateRange(states1.Start, states2.End);
 			});
 		}
 
-		private IEnumerable<States> AddReps<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses)
+		private IEnumerable<StateRange> AddReps<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses)
 		{
 			// Add required reps
 			for(var i = 0; i < MinRepititions; i++)

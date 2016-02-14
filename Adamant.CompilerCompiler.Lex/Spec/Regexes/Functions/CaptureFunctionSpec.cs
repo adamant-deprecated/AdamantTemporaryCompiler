@@ -15,7 +15,7 @@ namespace Adamant.CompilerCompiler.Lex.Spec.Regexes.Functions
 			return changed ? new CaptureFunctionSpec(exp) : this;
 		}
 
-		public override States AddTo<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses)
+		public override StateRange AddTo<T>(NFA<T> nfa, CodePointEquivalenceClasses equivalenceClasses)
 		{
 			return Expression.AddTo(nfa, equivalenceClasses);
 		}
