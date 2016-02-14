@@ -9,17 +9,18 @@ Comment: "/*" ~"*/" | "//" ~\R -> @skip;
 WhiteSpace: \s+ -> @skip;
 
 // Functions
-Skip: "@skip"; // Also an action
-Substitute: "@sub";
-Decode: "@decode";
 Capture: "@capture";
+Decode: "@decode";
+Substitute: "@sub";
 
 // Commands
+Skip: "@skip"; // Also an action
 More: "@more";
 Mode: "@mode";
 PushMode: "@pushMode";
 PopMode: "@popMode";
 Type: "@type";
+Channel: "@channel";
 Error: "@error";
 Action: @skip("<%") ~@skip("%>");
 

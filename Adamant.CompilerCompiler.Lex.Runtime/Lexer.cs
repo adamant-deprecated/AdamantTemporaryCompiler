@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Adamant.CompilerCompiler.Lex.Runtime
 {
-	public abstract class Lexer<TTokenType> : IEnumerable<Token<TTokenType>>
+	public abstract class Lexer<TChannel, TTokenType> : IEnumerable<Token<TChannel, TTokenType>>
 	{
-		public abstract IEnumerator<Token<TTokenType>> GetEnumerator();
+		public abstract IEnumerator<Token<TChannel, TTokenType>> GetEnumerator();
 
 		IEnumerator IEnumerable.GetEnumerator()
 		{

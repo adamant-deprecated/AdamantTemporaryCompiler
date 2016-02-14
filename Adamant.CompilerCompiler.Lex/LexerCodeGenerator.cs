@@ -60,6 +60,7 @@ namespace Adamant.CompilerCompiler.Lex
 			template = Replace(template, "GeneratorVersion", generatorVersion);
 			template = Replace(template, "ClassName", lexerSpec.LexerName ?? "Lexer");
 			template = Replace(template, "ClassNamespace", lexerSpec.LexerNamespace);
+			template = Replace(template, "Channels", GenChannels().ToList());
 			template = Replace(template, "TokenTypes", GenTokenTypes());
 			template = Replace(template, "Modes", GetModes());
 			template = Replace(template, "InitialMode", lexerSpec.InitialMode.ToString());
@@ -179,6 +180,11 @@ namespace Adamant.CompilerCompiler.Lex
 				.Select(ec => (int?)ec.Class)
 				.FirstOrDefault();
 			return defaultClass;
+		}
+
+		private IEnumerable<string> GenChannels()
+		{
+			yield return "Default";
 		}
 
 		private ICollection<string> GenTokenTypes()

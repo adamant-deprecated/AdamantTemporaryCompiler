@@ -21,8 +21,13 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 	[GeneratedCode("adamant-cc-lex", "0.1.0-alpha-*")]
 	[DebuggerNonUserCode]
 	[CompilerGenerated]
-	public partial class SpecLexer : Adamant.CompilerCompiler.Lex.Runtime.Lexer<SpecLexer.TokenType>
+	public partial class SpecLexer : Adamant.CompilerCompiler.Lex.Runtime.Lexer<SpecLexer.Channel, SpecLexer.TokenType>
 	{
+		public enum Channel
+		{
+			Default
+		}
+
 		public enum TokenType
 		{
 			Alternation, AnyChar, BeginCharClass, BeginCommands, BeginGroup,
@@ -486,14 +491,14 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 			currentMode = mode;
 		}
 
-		public override IEnumerator<Adamant.CompilerCompiler.Lex.Runtime.Token<SpecLexer.TokenType>> GetEnumerator()
+		public override IEnumerator<Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>> GetEnumerator()
 		{
 			while(true)
 				yield return NextToken();
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		private Adamant.CompilerCompiler.Lex.Runtime.Token<SpecLexer.TokenType> NextToken()
+		private Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType> NextToken()
 		{
 			var currentState = (int)currentMode;
 			var afterCarriageReturn = false;
@@ -625,9 +630,10 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 					default:
 						throw new InvalidOperationException();
 				}
-				if(outputTokenType != null)
-					return new Adamant.CompilerCompiler.Lex.Runtime.Token<SpecLexer.TokenType>(outputTokenType.Value);
+
 				// TODO generate (or not) the token
+				if(outputTokenType != null)
+					return new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, outputTokenType.Value, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), null);
 			}
 		}
 
