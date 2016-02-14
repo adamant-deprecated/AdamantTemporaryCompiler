@@ -30,10 +30,10 @@ namespace Adamant.CompilerCompiler.Lex.CLI
 
 			spec.Validate();
 			spec = spec.Simplify();
-			var nfa = spec.ConvertToNFA();
-			var dfa = nfa.ToDFA();
+			var nfa = Functions.ConvertToNFA(spec);
+			var dfa = Functions.ConvertToDFA(nfa);
 			var minDFA = dfa.Minimize();
-			var codeGen = minDFA.ConvertToCodeGenerator();
+			var codeGen = Functions.ConvertToCodeGenerator(minDFA);
 			var skeleton = new CSharpSkeleton();
 			var code = codeGen.GenerateCode(skeleton, GeneratorVersion);
 			var targetPath = Path.Combine(Path.GetDirectoryName(options.FilePath), codeGen.FileName(skeleton));

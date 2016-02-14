@@ -1,5 +1,4 @@
 ﻿using Adamant.CompilerCompiler.Lex.FiniteAutomata;
-using Adamant.CompilerCompiler.Lex.Services;
 using Adamant.Core;
 using Adamant.FiniteAutomata;
 using Sys.Text;

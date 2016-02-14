@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Adamant.CompilerCompiler.Lex.FiniteAutomata;
-using Adamant.CompilerCompiler.Lex.Services;
 using Adamant.CompilerCompiler.Lex.Spec;
 using Adamant.FiniteAutomata;
 
@@ -20,10 +19,5 @@ namespace Adamant.CompilerCompiler.Lex
 		public IReadOnlyDictionary<Mode, State> ModeMap { get; }
 		public CodePointEquivalenceClasses EquivalenceClasses { get; }
 		public NFA<LexerAction> Nfa { get; }
-
-		public LexerDFA ToDFA()
-		{
-			return LexerTransformer.Instance.ConvertToDFA(this);
-		}
 	}
 }

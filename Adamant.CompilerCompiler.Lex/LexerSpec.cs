@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Adamant.CompilerCompiler.Lex.Services;
 using Adamant.CompilerCompiler.Lex.Spec;
 
 namespace Adamant.CompilerCompiler.Lex
@@ -83,11 +82,6 @@ namespace Adamant.CompilerCompiler.Lex
 					reachableModes.UnionWith(rule.ModesEntered());
 			} while(reachableModes.Count != modeCount);
 			return reachableModes;
-		}
-
-		public LexerNFA ConvertToNFA()
-		{
-			return LexerTransformer.Instance.ConvertToNFA(this);
 		}
 	}
 }

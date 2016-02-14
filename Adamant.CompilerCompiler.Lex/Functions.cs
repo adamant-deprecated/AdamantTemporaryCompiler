@@ -8,19 +8,11 @@ using Adamant.CompilerCompiler.Lex.Spec.Commands;
 using Adamant.Core;
 using Adamant.FiniteAutomata;
 
-namespace Adamant.CompilerCompiler.Lex.Services
+namespace Adamant.CompilerCompiler.Lex
 {
-	public class LexerTransformer
+	public static class Functions
 	{
-		#region Singleton
-		public static LexerTransformer Instance { get; } = new LexerTransformer();
-
-		private LexerTransformer()
-		{
-		}
-		#endregion
-
-		public LexerNFA ConvertToNFA(LexerSpec spec)
+		public static LexerNFA ConvertToNFA(LexerSpec spec)
 		{
 			spec = spec.HasBeenSimplified ? spec : spec.Simplify();
 			var equivalenceClasses = MakeEquivalenceClasses(spec);
@@ -76,7 +68,7 @@ namespace Adamant.CompilerCompiler.Lex.Services
 			return tokenTypeName == null ? (int?)null : tokenLookup[tokenTypeName];
 		}
 
-		private IEnumerable<LexerModeAction> GetModeActions(IReadOnlyList<Command> commands)
+		private static IEnumerable<LexerModeAction> GetModeActions(IReadOnlyList<Command> commands)
 		{
 			var actions = commands.SelectMany(c => c.ModeActions()).Where(a => a != null).ToList();
 
@@ -105,7 +97,7 @@ namespace Adamant.CompilerCompiler.Lex.Services
 			return actions;
 		}
 
-		public LexerDFA ConvertToDFA(LexerNFA lexerNFA)
+		public static LexerDFA ConvertToDFA(LexerNFA lexerNFA)
 		{
 			var dfaResult = lexerNFA.Nfa.ToDFA(lexerActions =>
 											lexerActions.Select(x => x.Item2)
@@ -116,7 +108,7 @@ namespace Adamant.CompilerCompiler.Lex.Services
 			return new LexerDFA(lexerNFA.LexerSpec, modeMap, lexerNFA.EquivalenceClasses, dfaResult.Item2);
 		}
 
-		public LexerCodeGenerator ConvertToCodeGenerator(LexerDFA lexerDfa)
+		public static LexerCodeGenerator ConvertToCodeGenerator(LexerDFA lexerDfa)
 		{
 			var errorState = lexerDfa.Dfa.MakeComplete();
 

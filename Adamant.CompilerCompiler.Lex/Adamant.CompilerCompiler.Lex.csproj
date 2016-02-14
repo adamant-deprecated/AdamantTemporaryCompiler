@@ -61,7 +61,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Services\LexerTransformer.cs" />
+    <Compile Include="Functions.cs" />
     <Compile Include="SpecParsing\SpecLexer.cs" />
     <Compile Include="SpecParsing\ThrowAway.cs" />
     <Compile Include="Spec\Command.cs" />

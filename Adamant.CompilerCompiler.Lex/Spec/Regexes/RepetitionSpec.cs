@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Adamant.CompilerCompiler.Lex.FiniteAutomata;
-using Adamant.CompilerCompiler.Lex.Services;
 using Adamant.FiniteAutomata;
 
 namespace Adamant.CompilerCompiler.Lex.Spec.Regexes
