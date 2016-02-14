@@ -13,8 +13,7 @@ namespace Adamant.CompilerCompiler.Lex.Spec.Commands
 
 		public PushModeCommand(Mode mode)
 		{
-			if(mode == null)
-				throw new ArgumentNullException();
+			if(mode == null) throw new ArgumentNullException(nameof(mode));
 			Mode = mode;
 		}
 

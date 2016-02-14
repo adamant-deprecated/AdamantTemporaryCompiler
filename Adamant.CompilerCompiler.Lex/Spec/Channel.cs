@@ -2,11 +2,11 @@
 
 namespace Adamant.CompilerCompiler.Lex.Spec
 {
-	public class Mode
+	public class Channel
 	{
 		public readonly string Name;
 
-		public Mode(string name)
+		public Channel(string name)
 		{
 			if(string.IsNullOrWhiteSpace(name)) throw new ArgumentNullException(nameof(name));
 			Name = name;
@@ -17,7 +17,7 @@ namespace Adamant.CompilerCompiler.Lex.Spec
 			return Name.GetHashCode();
 		}
 
-		protected bool Equals(Mode other)
+		protected bool Equals(Channel other)
 		{
 			return string.Equals(Name, other.Name);
 		}
@@ -26,8 +26,8 @@ namespace Adamant.CompilerCompiler.Lex.Spec
 		{
 			if(ReferenceEquals(null, obj)) return false;
 			if(ReferenceEquals(this, obj)) return true;
-			if(obj.GetType() != this.GetType()) return false;
-			return Equals((Mode) obj);
+			if(obj.GetType() != GetType()) return false;
+			return Equals((Channel)obj);
 		}
 
 		public override string ToString()

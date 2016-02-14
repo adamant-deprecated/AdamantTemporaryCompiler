@@ -8,7 +8,7 @@ namespace Adamant.CompilerCompiler.Lex.FiniteAutomata
 		public static LexerEmitAction Skip { get; } = SkipToken.Instance;
 
 
-		public static LexerEmitAction Token(int channel, int tokenType, bool isError)
+		public static LexerEmitAction Token(int channel, string tokenType, bool isError)
 		{
 			return new EmitToken(channel, tokenType, isError);
 		}

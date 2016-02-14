@@ -74,7 +74,9 @@
     <Compile Include="Functions.cs" />
     <Compile Include="SpecParsing\SpecLexer.cs" />
     <Compile Include="SpecParsing\ThrowAway.cs" />
+    <Compile Include="Spec\Channel.cs" />
     <Compile Include="Spec\Command.cs" />
+    <Compile Include="Spec\Commands\ChannelCommand.cs" />
     <Compile Include="Spec\Commands\CodeActionCommand.cs" />
     <Compile Include="Spec\Commands\FlagErrorCommand.cs" />
     <Compile Include="Spec\Commands\MoreCommand.cs" />

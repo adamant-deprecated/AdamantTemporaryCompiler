@@ -196,9 +196,6 @@ namespace Adamant.CompilerCompiler.Lex
 
 		private IEnumerable<string> GenActions(Skeleton skeleton)
 		{
-			// TODO it is strange we have to rebuild this lookup
-			var tokenTypes = lexerSpec.Rules.OrderBy(r => r.Name).Select(r => r.Name).ToList();
-
 			for(var i = 0; i < actions.Length; i++)
 			{
 				var action = actions[i];
@@ -239,7 +236,7 @@ namespace Adamant.CompilerCompiler.Lex
 				EmitToken emitAction;
 				if((emitAction = action.EmitAction as EmitToken) != null)
 				{
-					yield return $"	token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.{tokenTypes[emitAction.TokenType]}, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());";
+					yield return $"	token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.{emitAction.TokenType}, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());";
 					yield return $"	tokenBuffer.Clear();";
 				}
 

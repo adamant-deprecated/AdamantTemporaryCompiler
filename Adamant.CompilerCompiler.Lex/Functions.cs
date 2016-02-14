@@ -4,7 +4,6 @@ using System.Linq;
 using Adamant.CompilerCompiler.Lex.FiniteAutomata;
 using Adamant.CompilerCompiler.Lex.FiniteAutomata.ModeActions;
 using Adamant.CompilerCompiler.Lex.Spec;
-using Adamant.CompilerCompiler.Lex.Spec.Commands;
 using Adamant.Core;
 using Adamant.FiniteAutomata;
 
@@ -19,34 +18,9 @@ namespace Adamant.CompilerCompiler.Lex
 			var nfa = new NFA<LexerAction>(equivalenceClasses.Count);
 			var modeMap = spec.Modes.ToDictionary(m => m, m => nfa.AddState(true));
 
-			// TODO what we actually want here is something more like a bidirectional dictionary?
-			var tokenTypes = spec.Rules.OrderBy(r => r.Name).Select(r => r.Name).ToList();
-			var tokenLookup = new Dictionary<string, int>();
-			for(var i = 0; i < tokenTypes.Count; i++)
-				tokenLookup.Add(tokenTypes[i], i);
-
 			for(var i = 0; i < spec.Rules.Count; i++)
 			{
-				var rule = spec.Rules[i];
-				var endState = AddStates(rule, modeMap, equivalenceClasses, nfa);
-				// Input Action
-				var inputAction = LexerInputAction.Ignore; // TODO put the right thing here
-
-				// Mode Actions
-				var modeActions = GetModeActions(rule.Commands);
-
-				// Emit Actions
-				LexerEmitAction emitAction;
-				if(rule.Commands.Contains(Command.More))
-					emitAction = LexerEmitAction.Nothing;
-				else if(rule.Commands.Contains(Command.Skip))
-					emitAction = LexerEmitAction.Skip;
-				else
-					// TODO handle channel correctly
-					emitAction = LexerEmitAction.Token(0, GetTokenType(rule, tokenLookup).Value, rule.Commands.Contains(Command.FlagError));
-
-				var code = rule.Commands.OfType<CodeActionCommand>().SingleOrDefault()?.Code;
-				nfa.SetData(endState, new LexerAction(i, inputAction, modeActions, emitAction, code));
+				spec.Rules[i].AddStates(modeMap, equivalenceClasses, nfa, i);
 			}
 
 			return new LexerNFA(spec, modeMap, equivalenceClasses, nfa);
@@ -61,26 +35,7 @@ namespace Adamant.CompilerCompiler.Lex
 			return equivalenceClasses;
 		}
 
-		// TODO move to RuleSpec?
-		private static State AddStates(RuleSpec rule, IDictionary<Mode, State> modeMap, CodePointEquivalenceClasses equivalenceClasses, NFA<LexerAction> nfa)
-		{
-			var states = rule.Expression.AddTo(nfa, equivalenceClasses);
-
-			foreach(var mode in rule.Modes)
-				nfa.AddEpsilonTransition(modeMap[mode], states.Start);
-
-			nfa.SetFinal(states.End);
-			return states.End;
-			// TODO nfa.SetData(rule.Commands)
-		}
-
-		private static int? GetTokenType(RuleSpec rule, IDictionary<string, int> tokenLookup)
-		{
-			var tokenTypeName = rule.Commands.Aggregate(rule.Name, (current, command) => command.GetTokenType(current));
-			return tokenTypeName == null ? (int?)null : tokenLookup[tokenTypeName];
-		}
-
-		private static IEnumerable<LexerModeAction> GetModeActions(IReadOnlyList<Command> commands)
+		public static IEnumerable<LexerModeAction> GetModeActions(IReadOnlyList<Command> commands)
 		{
 			var actions = commands.SelectMany(c => c.ModeActions()).Where(a => a != null).ToList();
 
@@ -136,8 +91,7 @@ namespace Adamant.CompilerCompiler.Lex
 			var transitions = new int[dfa.StateCount * dfa.InputValueCount];
 			var actionMap = new int[dfa.StateCount];
 			var actionIndexes = new Dictionary<LexerAction, int>();
-			var defaultAction = new LexerAction(0, LexerInputAction.Ignore, Enumerable.Empty<LexerModeAction>(), LexerEmitAction.Nothing, null);
-			actionIndexes.Add(defaultAction, 0);
+			actionIndexes.Add(LexerAction.Default, 0);
 			var nextActionIndex = 1;
 			var row = 0;
 			foreach(var state in dfa.States)
@@ -153,7 +107,7 @@ namespace Adamant.CompilerCompiler.Lex
 					column++;
 				}
 
-				var action = dfa.GetData(state) ?? defaultAction;
+				var action = dfa.GetData(state) ?? LexerAction.Default;
 				if(!actionIndexes.ContainsKey(action))
 				{
 					actionIndexes.Add(action, nextActionIndex);

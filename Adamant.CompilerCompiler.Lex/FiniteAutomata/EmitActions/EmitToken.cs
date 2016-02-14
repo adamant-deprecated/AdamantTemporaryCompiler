@@ -1,13 +1,16 @@
-﻿namespace Adamant.CompilerCompiler.Lex.FiniteAutomata.EmitActions
+﻿using System;
+
+namespace Adamant.CompilerCompiler.Lex.FiniteAutomata.EmitActions
 {
 	public class EmitToken : LexerEmitAction
 	{
 		public readonly int Channel;
-		public readonly int TokenType;
+		public readonly string TokenType;
 		public readonly bool IsError;
 
-		public EmitToken(int channel, int tokenType, bool isError)
+		public EmitToken(int channel, string tokenType, bool isError)
 		{
+			if(string.IsNullOrWhiteSpace(tokenType)) throw new ArgumentNullException(nameof(tokenType));
 			Channel = channel;
 			TokenType = tokenType;
 			IsError = isError;
@@ -31,7 +34,7 @@
 			unchecked
 			{
 				var hashCode = Channel;
-				hashCode = (hashCode * 397) ^ TokenType;
+				hashCode = (hashCode * 397) ^ TokenType.GetHashCode();
 				hashCode = (hashCode * 397) ^ IsError.GetHashCode();
 				return hashCode;
 			}

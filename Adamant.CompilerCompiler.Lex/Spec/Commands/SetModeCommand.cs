@@ -11,8 +11,7 @@ namespace Adamant.CompilerCompiler.Lex.Spec.Commands
 
 		public SetModeCommand(Mode mode)
 		{
-			if(mode == null)
-				throw new ArgumentNullException();
+			if(mode == null) throw new ArgumentNullException(nameof(mode));
 			Mode = mode;
 		}
 

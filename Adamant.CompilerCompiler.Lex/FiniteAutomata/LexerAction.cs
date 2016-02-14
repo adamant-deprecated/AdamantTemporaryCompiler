@@ -6,6 +6,8 @@ namespace Adamant.CompilerCompiler.Lex.FiniteAutomata
 {
 	public class LexerAction
 	{
+		public static readonly LexerAction Default = new LexerAction(0, LexerInputAction.Ignore, Enumerable.Empty<LexerModeAction>(), LexerEmitAction.Nothing, null);
+
 		/// <summary>
 		/// Lower numbers are higher priority
 		/// </summary>

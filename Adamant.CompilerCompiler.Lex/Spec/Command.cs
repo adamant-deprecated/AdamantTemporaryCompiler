@@ -29,8 +29,16 @@ namespace Adamant.CompilerCompiler.Lex.Spec
 		{
 			return new CodeActionCommand(code);
 		}
-		// TODO SetChannel
+		public static Command Channel(Channel channel)
+		{
+			return new ChannelCommand(channel);
+		}
 		#endregion
+
+		public virtual Channel ChannelUsed()
+		{
+			return null;
+		}
 
 		public virtual Mode ModeEntered()
 		{

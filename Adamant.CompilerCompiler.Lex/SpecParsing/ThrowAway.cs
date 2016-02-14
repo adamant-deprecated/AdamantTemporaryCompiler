@@ -1,4 +1,5 @@
-﻿using Adamant.CompilerCompiler.Lex.Spec;
+﻿using System.Linq;
+using Adamant.CompilerCompiler.Lex.Spec;
 using Adamant.CompilerCompiler.Lex.Spec.Regexes;
 using Sys.Text;
 
@@ -20,6 +21,7 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 				.Union(new InversionListCodePointSet(']')).Complement());
 
 			var initial = new Mode("Default");
+			var defaultChannel = new Channel("Default");
 			var charClass = new Mode("CharacterClass");
 
 			SpecLexerSpec = new LexerSpec("SpecLexer", "Adamant.CompilerCompiler.Lex.SpecParsing", new[]
@@ -102,6 +104,8 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 				new RuleSpec(charClass, "CharRange", new RuleReferenceSpec("Char")+"-"+new RuleReferenceSpec("Char")),
 				new RuleSpec(charClass, "EndCharClass", "]", Command.PopMode),
 			},
+			Enumerable.Empty<Channel>(),
+			defaultChannel,
 			new[] { initial, charClass },
 			initial);
 		}
