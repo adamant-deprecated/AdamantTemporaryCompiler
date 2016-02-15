@@ -1,11 +1,14 @@
-# Adamant Temporary Compiler
+# *Deprecated* Adamant Temporary Compiler
 The Adamant compiler is being bootstrapped.  To serve this process, a compiler must first be written in another language. In this case C#. This is that temporary compiler.  It will be thrown away when the compiler is re-written in Adamant.
 
-## Project Status: Alpha Active
-This is under active development.  It is in a very early stage and there are likely issues and limitations.  APIs are subject to frequent breaking changes.
+## Project Status: Alpha *Deprecated*
+This project should not be used, it has been superseded by the "[AdamantExploratoryCompiler](https://github.com/adamant/AdamantExploratoryCompiler)".
 
 ### Download and Use
 Clone this git repo and compile using Visual Studio 2015.
+
+## Reasons for Deprecation
+Because this project was attempting to form the basis of a future port of the compiler to the Adamant language, it took rather involved approaches (i.e. creating a lexer generator).  This approach was simply not getting to a working prototype compiler fast enough.  Since there is no comparable language available at this time it is important to rapidly test the design of the language and possibly iterate on that design.  This project wasn't meeting those needs.
 
 ## Explanation of this Project
 The Adamant compiler is being bootstrapped.  To serve this process, a compiler must first be written in another language. In this case C#. This is that temporary compiler.  It will be thrown away when the compiler is re-written in Adamant.  To facilitate the re-writing in Adamant, this project is structured along lines that make sense for the Adamant compiler. C# was chosen for this because:
