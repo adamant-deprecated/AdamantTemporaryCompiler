@@ -37,8 +37,8 @@ namespace Adamant.CompilerCompiler.Lex
 
 		/// <summary>
 		/// Validates that
-		///		* Rules don't reference rules not in the spec
-		///		* Rules don't reference modes not in the spec
+		///		* Rules aren't duplicated
+		///		* Each rule is individually valid
 		///
 		/// TODO really should return a collection of errors rather than just throwing exception
 		/// </summary>
@@ -82,7 +82,6 @@ namespace Adamant.CompilerCompiler.Lex
 		/// <summary>
 		/// Finds all the modes that can be reached by the application of commands
 		/// </summary>
-		/// <returns></returns>
 		private HashSet<Mode> ReachableModes()
 		{
 			var reachableModes = new HashSet<Mode> { InitialMode };

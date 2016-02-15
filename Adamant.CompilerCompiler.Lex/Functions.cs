@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Adamant.CompilerCompiler.Lex.FiniteAutomata;
-using Adamant.CompilerCompiler.Lex.FiniteAutomata.ModeActions;
-using Adamant.CompilerCompiler.Lex.Spec;
 using Adamant.Core;
 using Adamant.FiniteAutomata;
 
@@ -31,35 +29,6 @@ namespace Adamant.CompilerCompiler.Lex
 				rule.Expression.MakeEquivalenceClasses(equivalenceClasses);
 
 			return equivalenceClasses;
-		}
-
-		public static IEnumerable<LexerModeAction> GetModeActions(IReadOnlyList<Command> commands)
-		{
-			var actions = commands.SelectMany(c => c.ModeActions()).Where(a => a != null).ToList();
-
-			// We do not check for the additional possible simplification of
-			// push, set(x), push, set(x) -> push, set(x), push
-
-			// TODO change this to something more object oriented
-			for(var i = actions.Count - 2; i >= 0; i--)
-			{
-				var action = actions[i];
-				var nextAction = actions[i + 1];
-				if(action is SetMode && (nextAction is PopMode || nextAction is SetMode))
-				{
-					//	set(x), pop -> pop
-					//	set(x), set(y) -> set(y)
-					actions.RemoveAt(i);
-				}
-				else if(action is PushMode && nextAction is PopMode)
-				{
-					//	push, pop -> nothing
-					actions.RemoveAt(i);
-					actions.RemoveAt(i);
-				}
-			}
-
-			return actions;
 		}
 
 		public static LexerDFA ConvertToDFA(LexerNFA lexerNFA)

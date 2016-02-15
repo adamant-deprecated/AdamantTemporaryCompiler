@@ -236,7 +236,7 @@ namespace Adamant.CompilerCompiler.Lex
 				EmitToken emitAction;
 				if((emitAction = action.EmitAction as EmitToken) != null)
 				{
-					yield return $"	token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.{emitAction.TokenType}, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());";
+					yield return $"	token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.{emitAction.Channel}, TokenType.{emitAction.TokenType}, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());";
 				}
 
 				if(action.Code != null)
