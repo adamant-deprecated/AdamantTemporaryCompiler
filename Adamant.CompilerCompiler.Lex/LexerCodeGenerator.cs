@@ -198,7 +198,6 @@ namespace Adamant.CompilerCompiler.Lex
 		private IEnumerable<string> GenActions(Skeleton skeleton)
 		{
 			yield return "case 0:";
-			yield return "	tokenBuffer.Append(codePoint);";
 			yield return "	continue;";
 
 			for(var i = 1; i < actions.Length; i++)

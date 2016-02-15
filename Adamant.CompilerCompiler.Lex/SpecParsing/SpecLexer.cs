@@ -707,8 +707,12 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 
 		public override IEnumerator<Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>> GetEnumerator()
 		{
-			while(true)
-				yield return NextToken();
+			for(;;)
+			{
+				var token = NextToken();
+				if(token == null) yield break;
+				yield return token;
+			}
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -720,7 +724,7 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 			{
 				var maybeCodePoint = ReadCodePoint();
 				if(maybeCodePoint == null)
-					throw new NotImplementedException("EOF");
+					return null;
 
 				var codePoint = maybeCodePoint.Value;
 
@@ -729,10 +733,10 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 				var nextState = transitions[rowMap[currentState] + equivalenceClass];
 				var action = actionMap[nextState];
 				Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType> token = null;
+				AppendCodePoint(tokenBuffer, codePoint);
 				switch(action)
 				{
 					case 0:
-						tokenBuffer.Append(codePoint);
 						continue;
 					case 1:
 						captureBuffer.Append(tokenBuffer.ToString());

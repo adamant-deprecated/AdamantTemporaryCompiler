@@ -18,5 +18,6 @@
 		public FilePosition BeginsAt { get; }
 		public FilePosition EndsAt { get; }
 		public string Value { get; }
+		public bool HasValue => !string.IsNullOrEmpty(Value);
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Adamant.CompilerCompiler.Lex.Runtime
 {
@@ -10,6 +11,14 @@ namespace Adamant.CompilerCompiler.Lex.Runtime
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return GetEnumerator();
+		}
+
+		protected void AppendCodePoint(StringBuilder builder, int codePoint)
+		{
+			if(codePoint <= 0xFFFF)
+				builder.Append((char) codePoint);
+			else
+				builder.Append(char.ConvertFromUtf32(codePoint));
 		}
 	}
 }
