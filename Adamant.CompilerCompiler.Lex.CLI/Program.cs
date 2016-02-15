@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 using Adamant.CompilerCompiler.Lex.CodeGen;
 using Adamant.CompilerCompiler.Lex.SpecParsing;
 using NDesk.Options;
@@ -20,7 +21,8 @@ namespace Adamant.CompilerCompiler.Lex.CLI
 			//using(var reader = new StreamReader(File.OpenRead(options.FilePath), Encoding.UTF8))
 			//{
 			//	var lexer = new SpecLexer(reader);
-			//	var tokens = lexer.ToList();
+			//	foreach(var token in lexer)
+			//		Console.WriteLine(token.HasValue ? $"{token.Type}:{token.Value}" : $"{token.Type}");
 			//}
 
 			// can't really read the input yet, just going to work from our spec object
