@@ -6,55 +6,61 @@ namespace Adamant.CompilerCompiler.Lex.FiniteAutomata
 {
 	public class LexerAction
 	{
-		public static readonly LexerAction Default = new LexerAction(0, LexerInputAction.Ignore, Enumerable.Empty<LexerModeAction>(), LexerEmitAction.Nothing, null);
-
 		/// <summary>
 		/// Lower numbers are higher priority
 		/// </summary>
 		public readonly int Priority;
-		public readonly LexerInputAction InputAction;
+		public readonly LexerValueAction ValueAction;
 		public readonly IReadOnlyList<LexerModeAction> ModeActions;
 		public readonly LexerEmitAction EmitAction;
 		public readonly string Code;
 
 		public LexerAction(
 			int priority,
-			LexerInputAction inputAction,
+			LexerValueAction valueAction,
 			IEnumerable<LexerModeAction> modeActions,
 			LexerEmitAction emitAction,
 			string code)
 		{
-			if(inputAction == null) throw new ArgumentNullException(nameof(inputAction));
+			if(valueAction == null) throw new ArgumentNullException(nameof(valueAction));
 
 			Priority = priority;
-			InputAction = inputAction;
+			ValueAction = valueAction;
 			ModeActions = modeActions.ToList();
 			EmitAction = emitAction;
 			Code = code;
+		}
+
+		public static LexerAction Default(int priority)
+		{
+			return new LexerAction(priority, LexerValueAction.Ignore, Enumerable.Empty<LexerModeAction>(), LexerEmitAction.More, null);
 		}
 
 		public override bool Equals(object obj)
 		{
 			if(ReferenceEquals(null, obj)) return false;
 			if(ReferenceEquals(this, obj)) return true;
-			if(obj.GetType() != this.GetType()) return false;
-			return Equals((LexerAction) obj);
+			if(obj.GetType() != GetType()) return false;
+			return Equals((LexerAction)obj);
 		}
 
 		protected bool Equals(LexerAction other)
 		{
-			return Priority == other.Priority && Equals(InputAction, other.InputAction) && Equals(ModeActions, other.ModeActions) && Equals(EmitAction, other.EmitAction) && string.Equals(Code, other.Code);
+			return Equals(ValueAction, other.ValueAction)
+				&& ModeActions.SequenceEqual(other.ModeActions)
+				&& Equals(EmitAction, other.EmitAction)
+				&& string.Equals(Code, other.Code);
 		}
 
 		public override int GetHashCode()
 		{
 			unchecked
 			{
-				var hashCode = Priority;
-				hashCode = (hashCode * 397) ^ InputAction.GetHashCode();
-				hashCode = (hashCode * 397) ^ ModeActions.GetHashCode();
+				var hashCode = ValueAction.GetHashCode();
+				foreach(var modeAction in ModeActions)
+					hashCode = (hashCode * 397) ^ modeAction.GetHashCode();
 				hashCode = (hashCode * 397) ^ EmitAction.GetHashCode();
-				hashCode = (hashCode*397) ^ (Code?.GetHashCode() ?? 0);
+				hashCode = (hashCode * 397) ^ (Code?.GetHashCode() ?? 0);
 				return hashCode;
 			}
 		}

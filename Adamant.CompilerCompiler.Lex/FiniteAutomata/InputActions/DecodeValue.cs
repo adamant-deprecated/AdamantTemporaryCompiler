@@ -1,6 +1,6 @@
 ﻿namespace Adamant.CompilerCompiler.Lex.FiniteAutomata.InputActions
 {
-	public class DecodeValue : LexerInputAction
+	public class DecodeValue : LexerValueAction
 	{
 		public readonly int Base;
 
@@ -11,13 +11,20 @@
 
 		public override int GetHashCode()
 		{
-			return Base.GetHashCode();
+			return Base;
 		}
 
 		public override bool Equals(object obj)
 		{
-			var other = obj as DecodeValue;
-			return other != null && Base == other.Base;
+			if(ReferenceEquals(null, obj)) return false;
+			if(ReferenceEquals(this, obj)) return true;
+			if(obj.GetType() != GetType()) return false;
+			return Equals((DecodeValue) obj);
+		}
+
+		protected bool Equals(DecodeValue other)
+		{
+			return Base == other.Base;
 		}
 	}
 }

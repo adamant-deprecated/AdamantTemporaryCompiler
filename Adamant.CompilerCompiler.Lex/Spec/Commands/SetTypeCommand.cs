@@ -4,12 +4,12 @@ namespace Adamant.CompilerCompiler.Lex.Spec.Commands
 {
 	public class SetTypeCommand : Command
 	{
-		public readonly string TokenType;
-
 		public SetTypeCommand(string tokenType)
 		{
 			TokenType = tokenType;
 		}
+
+		public override string TokenType { get; }
 
 		public override void Validate(RuleSpec rule, LexerSpec lexer)
 		{
@@ -18,11 +18,6 @@ namespace Adamant.CompilerCompiler.Lex.Spec.Commands
 
 			if(lexer.Rules[TokenType].IsFragment)
 				throw new Exception($"Rule '{rule.Name}' references fragment for token type: '{TokenType}'");
-		}
-
-		public override string GetTokenType(string tokenType)
-		{
-			return TokenType;
 		}
 	}
 }

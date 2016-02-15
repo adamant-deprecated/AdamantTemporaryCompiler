@@ -9,10 +9,5 @@
 		{
 		}
 		#endregion
-
-		public override string GetTokenType(string tokenType)
-		{
-			return null;
-		}
 	}
 }

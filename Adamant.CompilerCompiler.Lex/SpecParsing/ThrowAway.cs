@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Adamant.CompilerCompiler.Lex.Spec;
+﻿using Adamant.CompilerCompiler.Lex.Spec;
 using Adamant.CompilerCompiler.Lex.Spec.Regexes;
 using Sys.Text;
 
@@ -20,38 +19,43 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 				.Union(new InversionListCodePointSet('-'))
 				.Union(new InversionListCodePointSet(']')).Complement());
 
-			var initial = new Mode("Default");
 			var defaultChannel = new Channel("Default");
+			var whiteSpaceChannel = new Channel("WhiteSpace");
+			var initial = new Mode("Default");
+			var startCharClass = new Mode("StartCharacterClass");
 			var charClass = new Mode("CharacterClass");
 
 			SpecLexerSpec = new LexerSpec("SpecLexer", "Adamant.CompilerCompiler.Lex.SpecParsing", new[]
 			{
 				// Comments
-				new RuleSpec(initial, "Comment",("/*" + ~R("*/")) |("//" + ~newline), Command.Skip),
-				new RuleSpec(initial, "WhiteSpace", whitespace.Repeat(), Command.Skip),
+				new RuleSpec(initial, "Comment",("/*" + ~R("*/")) |("//" + ~newline), Command.SetChannel(whiteSpaceChannel)),
+				new RuleSpec(initial, "WhiteSpace", whitespace.Repeat(), Command.SetChannel(whiteSpaceChannel)),
 	
-				// Functions
-				new RuleSpec(initial, "Skip", "@skip"), // Also an action
-				new RuleSpec(initial, "Substitute", "@sub"),
-				new RuleSpec(initial, "Decode", "@decode"),
-				new RuleSpec(initial, "Capture", "@capture"),
-
 				// Commands
-				new RuleSpec(initial, "More", "@more"),
 				new RuleSpec(initial, "Mode", "@mode"),
 				new RuleSpec(initial, "PushMode", "@pushMode"),
 				new RuleSpec(initial, "PopMode", "@popMode"),
+				new RuleSpec(initial, "Skip", "@skip"),
+				new RuleSpec(initial, "More", "@more"),
+				new RuleSpec(initial, "Type", "@type"),
+				new RuleSpec(initial, "Channel", "@channel"),
+				new RuleSpec(initial, "Error", "@error"),
+				new RuleSpec(initial, "Capture", "@capture"),
+				new RuleSpec(initial, "Decode", "@decode"),
+				new RuleSpec(initial, "Text", "@text"),
+				new RuleSpec(initial, "Action", "<%" + ~R("%>"), Command.Capture),
 
 				// Keywords
 				new RuleSpec(initial, "Lexer", "@lexer"),
+				new RuleSpec(initial, "Namespace", "@namespace"),
 				new RuleSpec(initial, "Modes", "@modes"),
 				new RuleSpec(initial, "Channels", "@channels"),
-				new RuleSpec(initial, "InvalidKeyword", "@" + new RuleReferenceSpec("Identifier"), Command.FlagError),
+				new RuleSpec(initial, "InvalidKeyword", "@" + new RuleReferenceSpec("Identifier"), Command.Capture, Command.FlagError),
 
 				// Expression Operators
 				new RuleSpec(initial, "Definition", ":"),
 				new RuleSpec(initial, "Alternation", "|"),
-				new RuleSpec(initial, "BeginCharClass", "[" + R("^").Optional(), Command.PushMode(charClass)),
+				new RuleSpec(initial, "BeginCharClass", "[", Command.Capture,  Command.PushMode(startCharClass)),
 				new RuleSpec(initial, "AnyChar", "."),
 				new RuleSpec(initial, "Optional", "?"),
 				new RuleSpec(initial, "Complement", "!"),
@@ -70,43 +74,46 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 				new RuleSpec(initial, "Comma", ","),
 
 				// Terminals
-				new RuleSpec(initial, "Number", "0" | (Class('1','9')+digit)),
-				new RuleSpec(initial, "Identifier", (Class('a','z')|Class('A','Z'))+(Class('a','z')|Class('A','Z')|digit).Repeat()),
-				new RuleSpec(initial, "Literal", R("\"")+new RuleReferenceSpec("literalChar").RepeatAtLeast(1).Capture()+R("\"") | new RuleReferenceSpec("escapeChar")),
+				new RuleSpec(initial, "Number", "0" | (Class('1','9')+digit), Command.Capture),
+				new RuleSpec(initial, "Identifier", (Class('a','z')|Class('A','Z'))+(Class('a','z')|Class('A','Z')|digit).Repeat(), Command.Capture),
+				new RuleSpec(initial, "Literal", R("\"")+new RuleReferenceSpec("literalChar").RepeatAtLeast(1)+R("\"") | new RuleReferenceSpec("escapeChar"), Command.Capture),
 				new RuleSpec(initial, "literalChar", new RuleReferenceSpec("escapeChar") | !(R("\\")|"\"")),
 
 				new RuleSpec(initial, "Category", R("\\R")|"\\s"|"\\d"),
 
 				// Fragments
 				new RuleSpec(initial, "escapeChar",
-					R("\\t").Sub("\t")
-					| R("\\n").Sub("\n")
-					| R("\\r").Sub("\r")
-					| R("\\b").Sub("\b")
-					| R("\\f").Sub("\f")
-					| R("\\0").Sub("\0")
-					| R("\\a").Sub("\a")
-					| R("\\v").Sub("\v")
-					| R("\\\"").Sub("\"")
-					| R("\\{").Sub("{")
-					| R("\\'").Sub("'")
-					| R("\\\\").Sub("\\")
-					| (R("\\x")+hexDigit.Repeat(2).Decode(16))
-					| (R("\\u")+hexDigit.Repeat(4).Decode(16))
-					| (R("\\U")+hexDigit.Repeat(6).Decode(16))
-					| (R("\\u{")+hexDigit.Repeat(1,6).Decode(16)+R("}"))),
+					R("\\t")
+					| R("\\n")
+					| R("\\r")
+					| R("\\b")
+					| R("\\f")
+					| R("\\0")
+					| R("\\a")
+					| R("\\v")
+					| R("\\\"")
+					| R("\\{")
+					| R("\\'")
+					| R("\\\\")
+					| (R("\\x")+hexDigit.Repeat(2))
+					| (R("\\u")+hexDigit.Repeat(4))
+					| (R("\\U")+hexDigit.Repeat(6))
+					| (R("\\u{")+hexDigit.Repeat(1,6)+R("}"))),
 
 				// Fallback
-				new RuleSpec(initial, "UnexpectedCodePoint", new CharClassSpec(InversionListCodePointSet.All), Command.FlagError),
+				new RuleSpec(initial, "UnexpectedCodePoint", new CharClassSpec(InversionListCodePointSet.All), Command.Capture, Command.FlagError),
 
 				// Character Classes
-				new RuleSpec(charClass, "Char", new RuleReferenceSpec("escapeChar")|charClassChar |R("\\-").Sub("-")|R("\\]").Sub("]")),
-				new RuleSpec(charClass, "CharRange", new RuleReferenceSpec("Char")+"-"+new RuleReferenceSpec("Char")),
+				new RuleSpec(startCharClass, "NegateCharClass", "^", Command.SetMode(charClass)),
+				new RuleSpec(charClass, "Char", new RuleReferenceSpec("escapeChar")|charClassChar, Command.Capture, Command.SetMode(charClass)),
+				new RuleSpec(charClass, "EscapeDash", R("\\-"), Command.Text("-"), Command.SetType("Char"), Command.SetMode(charClass)),
+				new RuleSpec(charClass, "EscapeRightBracket", R("\\]"), Command.Text("-"), Command.SetType("Char"), Command.SetMode(charClass)),
+				new RuleSpec(charClass, "CharRange", "-", Command.SetMode(charClass)),
 				new RuleSpec(charClass, "EndCharClass", "]", Command.PopMode),
 			},
-			Enumerable.Empty<Channel>(),
+			new[] { defaultChannel, whiteSpaceChannel },
 			defaultChannel,
-			new[] { initial, charClass },
+			new[] { initial, startCharClass, charClass },
 			initial);
 		}
 

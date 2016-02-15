@@ -49,6 +49,7 @@
     <Compile Include="FiniteAutomaton.cs" />
     <Compile Include="NFA.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StateRange.cs" />
     <Compile Include="StateSet.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

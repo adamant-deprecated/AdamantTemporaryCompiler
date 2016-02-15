@@ -19,9 +19,7 @@ namespace Adamant.CompilerCompiler.Lex
 			var modeMap = spec.Modes.ToDictionary(m => m, m => nfa.AddState(true));
 
 			for(var i = 0; i < spec.Rules.Count; i++)
-			{
-				spec.Rules[i].AddStates(modeMap, equivalenceClasses, nfa, i);
-			}
+				spec.Rules[i].AddStates(modeMap, equivalenceClasses, nfa, i, spec.DefaultChannel);
 
 			return new LexerNFA(spec, modeMap, equivalenceClasses, nfa);
 		}
@@ -66,13 +64,16 @@ namespace Adamant.CompilerCompiler.Lex
 
 		public static LexerDFA ConvertToDFA(LexerNFA lexerNFA)
 		{
-			var dfaResult = lexerNFA.Nfa.ToDFA(lexerActions =>
-											lexerActions.Select(x => x.Item2)
-											.Where(a => a != null)
-											.OrderBy(a => a.Priority)
-											.FirstOrDefault());
+			var dfaResult = lexerNFA.Nfa.ToDFA(MergeData);
 			var modeMap = lexerNFA.ModeMap.ToDictionary(e => e.Key, e => dfaResult.Item1[e.Value]);
 			return new LexerDFA(lexerNFA.LexerSpec, modeMap, lexerNFA.EquivalenceClasses, dfaResult.Item2);
+		}
+
+		private static LexerAction MergeData(IEnumerable<Tuple<State, LexerAction>> pairs)
+		{
+			var actions = pairs.Select(x => x.Item2).Where(a => a != null).ToList();
+			var highestPriorty = actions.Min(a => (int?)a.Priority);
+			return actions.SingleOrDefault(a => a.Priority == highestPriorty);
 		}
 
 		public static LexerCodeGenerator ConvertToCodeGenerator(LexerDFA lexerDfa)
@@ -91,7 +92,6 @@ namespace Adamant.CompilerCompiler.Lex
 			var transitions = new int[dfa.StateCount * dfa.InputValueCount];
 			var actionMap = new int[dfa.StateCount];
 			var actionIndexes = new Dictionary<LexerAction, int>();
-			actionIndexes.Add(LexerAction.Default, 0);
 			var nextActionIndex = 1;
 			var row = 0;
 			foreach(var state in dfa.States)
@@ -107,18 +107,23 @@ namespace Adamant.CompilerCompiler.Lex
 					column++;
 				}
 
-				var action = dfa.GetData(state) ?? LexerAction.Default;
-				if(!actionIndexes.ContainsKey(action))
+				var action = dfa.GetData(state);
+				if(action != null)
 				{
-					actionIndexes.Add(action, nextActionIndex);
-					nextActionIndex++;
+					if(!actionIndexes.ContainsKey(action))
+					{
+						actionIndexes.Add(action, nextActionIndex);
+						nextActionIndex++;
+					}
+					actionMap[row] = actionIndexes[action];
 				}
-				actionMap[row] = actionIndexes[action];
+				else
+					actionMap[row] = 0;
 
 				row++;
 			}
 
-			var actions = actionIndexes.OrderBy(x => x.Value).Select(x => x.Key).ToArray();
+			var actions = new[] { default(LexerAction) }.Concat(actionIndexes.OrderBy(x => x.Value).Select(x => x.Key)).ToArray();
 
 			return new LexerCodeGenerator(lexerDfa.LexerSpec, lexerDfa.ModeMap, errorState.Index, optimizedEquivalenceTable.Item1, optimizedEquivalenceTable.Item2, rowMap, transitions, actionMap, actions);
 		}

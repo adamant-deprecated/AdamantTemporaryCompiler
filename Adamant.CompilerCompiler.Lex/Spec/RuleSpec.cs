@@ -20,7 +20,7 @@ namespace Adamant.CompilerCompiler.Lex.Spec
 		{
 			Modes = new HashSet<Mode>(modes);
 			Name = name;
-			IsFragment = Char.IsLower(name, 0);
+			IsFragment = char.IsLower(name, 0);
 			Expression = expression;
 			Commands = new List<Command>(commands);
 			if(IsFragment && Commands.Any())
@@ -55,13 +55,10 @@ namespace Adamant.CompilerCompiler.Lex.Spec
 			if(Commands.Reverse().Skip(1).Any(c => c is CodeActionCommand))
 				throw new Exception($"Rule '{Name}', there can only be one code action per rule, and it must be the last command");
 
+			// TODO validate more rules about what is allowed to be combined
+
 			foreach(var command in Commands)
 				command.Validate(this, lexer);
-		}
-
-		public ISet<Channel> ChannelsUsed()
-		{
-			return new HashSet<Channel>(Commands.Select(command => command.ChannelUsed()).Where(channel => channel != null));
 		}
 
 		public ISet<Mode> ModesEntered()
@@ -78,7 +75,7 @@ namespace Adamant.CompilerCompiler.Lex.Spec
 			return new RuleSpec(reducedModes, Name, simplfiedExpression, Commands);
 		}
 
-		public void AddStates(IDictionary<Mode, State> modeMap, CodePointEquivalenceClasses equivalenceClasses, NFA<LexerAction> nfa, int priority)
+		public void AddStates(IDictionary<Mode, State> modeMap, CodePointEquivalenceClasses equivalenceClasses, NFA<LexerAction> nfa, int priority, Channel defaultChannel)
 		{
 			var states = Expression.AddTo(nfa, equivalenceClasses);
 
@@ -88,7 +85,7 @@ namespace Adamant.CompilerCompiler.Lex.Spec
 			nfa.SetFinal(states.End);
 
 			// Input Action
-			var inputAction = LexerInputAction.Ignore; // TODO put the right thing here
+			var inputAction = LexerValueAction.Ignore; // TODO put the right thing here
 
 			// Mode Actions
 			var modeActions = Functions.GetModeActions(Commands);
@@ -96,20 +93,19 @@ namespace Adamant.CompilerCompiler.Lex.Spec
 			// Emit Actions
 			LexerEmitAction emitAction;
 			if(Commands.Contains(Command.More))
-				emitAction = LexerEmitAction.Nothing;
+				emitAction = LexerEmitAction.More;
 			else if(Commands.Contains(Command.Skip))
 				emitAction = LexerEmitAction.Skip;
 			else
 				// TODO handle channel correctly
-				emitAction = LexerEmitAction.Token(0, GetTokenType(), Commands.Contains(Command.FlagError));
+				emitAction = LexerEmitAction.Token(Channel ?? defaultChannel, TokenType, Commands.Contains(Command.FlagError));
 
 			var code = Commands.OfType<CodeActionCommand>().SingleOrDefault()?.Code;
 			nfa.SetData(states.End, new LexerAction(priority, inputAction, modeActions, emitAction, code));
 		}
 
-		private string GetTokenType()
-		{
-			return Commands.Aggregate(Name, (current, command) => command.GetTokenType(current));
-		}
+		public Channel Channel => Commands.Select(c => c.Channel).SingleOrDefault(c => c != null);
+
+		public string TokenType => Commands.Select(c => c.TokenType).SingleOrDefault(t => t != null) ?? Name;
 	}
 }

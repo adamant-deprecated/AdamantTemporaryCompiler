@@ -191,53 +191,52 @@ namespace Adamant.CompilerCompiler.Lex
 
 		private ICollection<string> GenTokenTypes()
 		{
+			// TODO techincally, skip and more tokens don't need token types
 			return GenCommaSeparatedLines(lexerSpec.Rules.OrderBy(r => r.Name).Select(r => r.Name)).ToList();
 		}
 
 		private IEnumerable<string> GenActions(Skeleton skeleton)
 		{
-			for(var i = 0; i < actions.Length; i++)
+			yield return "case 0:";
+			yield return "	tokenBuffer.Append(codePoint);";
+			yield return "	continue;";
+
+			for(var i = 1; i < actions.Length; i++)
 			{
 				var action = actions[i];
-				yield return $"case {i}:";
+				yield return $"case {i+1}:";
 				// Lexer Input Action
 				DecodeValue decodeAction;
-				CaptureValue valueAction;
-				if(action.InputAction == LexerInputAction.Capture)
-					yield return "	tokenBuffer.Append(codePoint);";
-				else if(action.InputAction == LexerInputAction.CaptureForDecode)
-					yield return "	decodeBuffer.Append(codePoint);";
-				else if((decodeAction = action.InputAction as DecodeValue) != null)
-				{
-					yield return $"	tokenBuffer.Append(Decode(decodeBuffer.ToString(), {decodeAction.Base}));";
-					yield return "	decodeBuffer.Clear();";
-				}
-				else if((valueAction = action.InputAction as CaptureValue) != null)
+				TextValue valueAction;
+				if(action.ValueAction == LexerValueAction.Capture)
+					yield return "	captureBuffer.Append(tokenBuffer.ToString());";
+				else if((decodeAction = action.ValueAction as DecodeValue) != null)
+					yield return $"	captureBuffer.Append(Decode(tokenBuffer.ToString(), {decodeAction.Base}));";
+				else if((valueAction = action.ValueAction as TextValue) != null)
 					yield return $"	tokenBuffer.Append(\"{valueAction.Value}\");";
-				else if(action.InputAction == LexerInputAction.Ignore)
+				else if(action.ValueAction == LexerValueAction.Ignore)
 				{
 					// Nothing to do on ignore
 				}
 				else
-					throw new NotSupportedException($"Unsupported LexerInputAction type '{action.InputAction.GetType().FullName}'");
+					throw new NotSupportedException($"Unsupported LexerValueAction type '{action.ValueAction.GetType().FullName}'");
 
 				foreach(var modeAction in action.ModeActions)
 				{
 					if(modeAction == LexerModeAction.Pop)
 						yield return "	currentMode = modeStack.Pop();";
 					else if(modeAction == LexerModeAction.Push)
-						yield return "	modeStack.Pop(currentMode);";
+						yield return "	modeStack.Push(currentMode);";
 					else
 					{
 						var mode = ((SetMode)modeAction).Mode;
-						yield return $"	currentMode = Mode.({mode});";
+						yield return $"	currentMode = Mode.{mode};";
 					}
 				}
 				EmitToken emitAction;
 				if((emitAction = action.EmitAction as EmitToken) != null)
 				{
-					yield return $"	token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.{emitAction.TokenType}, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), tokenBuffer.ToString());";
-					yield return $"	tokenBuffer.Clear();";
+					yield return $"	token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.{emitAction.TokenType}, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());";
 				}
 
 				if(action.Code != null)

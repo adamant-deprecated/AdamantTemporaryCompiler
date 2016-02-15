@@ -3,37 +3,37 @@ This is the lexical definition for the lexer spec format .lex
 */
 
 @lexer SpecLexer;
+@channels WhiteSpace;
 
 // Comments
-Comment: "/*" ~"*/" | "//" ~\R -> @skip;
-WhiteSpace: \s+ -> @skip;
-
-// Functions
-Capture: "@capture";
-Decode: "@decode";
-Substitute: "@sub";
+Comment: "/*" ~"*/" | "//" ~\R -> @channel(WhiteSpace);
+WhiteSpace: \s+ -> @channel(WhiteSpace);
 
 // Commands
-Skip: "@skip"; // Also an action
-More: "@more";
 Mode: "@mode";
 PushMode: "@pushMode";
 PopMode: "@popMode";
+Skip: "@skip";
+More: "@more";
 Type: "@type";
 Channel: "@channel";
 Error: "@error";
-Action: @capture("<%" ~"%>");
+Capture: "@capture";
+Decode: "@decode";
+Text: "@text";
+Action: "<%" ~"%>" -> @capture;
 
 // Keywords
 Lexer = "@lexer";
+Namespace = "@namespace";
 Modes = "@modes";
 Channels = "@channels";
-InvalidKeyword = "@" @capture(Identifier) -> @error;
+InvalidKeyword = "@" Identifier -> @capture, @error;
 
 // Expression Operators
 Definition: ":";
 Alternation: "|";
-BeginCharClass: "[" @capture("^"?) -> @pushMode(CharacterClass);
+BeginCharClass: "[" -> @pushMode(CharacterClass);
 AnyChar: ".";
 Optional: "?";
 Complement: "!";
@@ -52,12 +52,9 @@ Terminator: ";";
 Comma: ",";
 
 // Terminals
-Number: @capture("0" | [1-9]\d*);
-Identifier: @capture([a-zA-Z][a-zA-Z0-9_]*);  // simplified from \p{Letter}[\p{Letter}\d_]*
-Literal:
-	\" @capture(literalChar+) \"
-	| escapeChar
-	;
+Number: "0" | [1-9]\d* -> @capture;
+Identifier: [a-zA-Z][a-zA-Z0-9_]* -> @capture;  // simplified from \p{Letter}[\p{Letter}\d_]*
+Literal: \" literalChar+ \" | escapeChar -> @capture;
 
 literalChar:
 	escapeChar
@@ -74,31 +71,36 @@ Category:
 
 // Fragments
 escapeChar:				// These string escapes match Adamant
-	  @sub("\\t", \t)
-	| @sub("\\n" \n)
-	| @sub("\\r", \r)
-	| @sub("\\b", \b)
-	| @sub("\\f", \f)
-	| @sub("\\0", \0)
-	| @sub("\\a", \a)
-	| @sub("\\v", \v)
-	| @sub(\\\", \")
-	| @sub(\\\{, \{)
-	| @sub(\\\', \')
-	| @sub(\\\\, \\)
-	| "\\x" @decode(hexDigit{2}, 16)
-	| "\\u" @decode(hexDigit{4}, 16)
-	| "\\U" @decode(hexDigit{6}, 16)
-	| "\\u{" @decode(hexDigit{1,6}, 16) "}"
+	  "\\t"
+	| "\\n"
+	| "\\r"
+	| "\\b"
+	| "\\f"
+	| "\\0"
+	| "\\a"
+	| "\\v"
+	| "\\\""
+	| "\\\{"
+	| "\\\'"
+	| "\\\\"
+	| "\\x" hexDigit{2}
+	| "\\u" hexDigit{4}
+	| "\\U" hexDigit{6}
+	| "\\u{" hexDigit{1,6} "}"
 	;
 
 hexDigit: [a-fA-F0-9];
 
 // Fallback
-UnexpectedCodePoint: [^] -> @error;
+UnexpectedCodePoint: [^] -> @capture, @error;
 
 // Character Classes
+@modes StartCharacterClass;
+NegateCharClass: "^" -> @mode(CharacterClass);
+
 @modes CharacterClass;
-Char: escapeChar | @capture([^\\\-\]]) | @sub("\\-", "-") |  @sub("\\]", "]"); // TODO control chars and newlines // Simplified around Unicode
-CharRange: @capture(Char "-" Char);
-EndCharClass: "]" -> @popMode(CharacterClass);
+Char: escapeChar | [^\\\-\]] -> @capture, @mode(CharacterClass); // TODO control chars and newlines // Simplified around Unicode
+EscapeDash: "\\-" -> @text("-"), @token(Char), @mode(CharacterClass);
+EscapeRightBracket: "\\]" -> @text("]"), @token(Char), @mode(CharacterClass);
+CharRange: "-"-> @mode(CharacterClass);
+EndCharClass: "]" -> @popMode;

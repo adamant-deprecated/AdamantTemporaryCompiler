@@ -12,6 +12,7 @@ namespace Adamant.CompilerCompiler.Lex.Spec
 		public static readonly Command More = MoreCommand.Instance;
 		public static readonly Command FlagError = FlagErrorCommand.Instance;
 		public static readonly Command PopMode = PopModeCommand.Instance;
+		public static readonly Command Capture = CaptureCommand.Instance;
 
 		public static Command PushMode(Mode mode)
 		{
@@ -29,16 +30,23 @@ namespace Adamant.CompilerCompiler.Lex.Spec
 		{
 			return new CodeActionCommand(code);
 		}
-		public static Command Channel(Channel channel)
+		public static Command SetChannel(Channel channel)
 		{
-			return new ChannelCommand(channel);
+			return new SetChannelCommand(channel);
+		}
+		public static Command Decode(int @base)
+		{
+			return new DecodeCommand(@base);
+		}
+		public static Command Text(string value)
+		{
+			return new TextCommand(value);
 		}
 		#endregion
 
-		public virtual Channel ChannelUsed()
-		{
-			return null;
-		}
+		public virtual string TokenType { get; } = null;
+
+		public virtual Channel Channel { get; } = null;
 
 		public virtual Mode ModeEntered()
 		{
@@ -47,11 +55,6 @@ namespace Adamant.CompilerCompiler.Lex.Spec
 
 		public virtual void Validate(RuleSpec rule, LexerSpec lexer)
 		{
-		}
-
-		public virtual string GetTokenType(string tokenType)
-		{
-			return tokenType;
 		}
 
 		public virtual IEnumerable<LexerModeAction> ModeActions()

@@ -1,5 +1,4 @@
 ﻿using Adamant.CompilerCompiler.Lex.FiniteAutomata;
-using Adamant.CompilerCompiler.Lex.Spec.Regexes.Functions;
 using Adamant.FiniteAutomata;
 
 namespace Adamant.CompilerCompiler.Lex.Spec.Regexes
@@ -73,21 +72,6 @@ namespace Adamant.CompilerCompiler.Lex.Spec.Regexes
 		public RegexSpec Repeat(int min, int max)
 		{
 			return new RepetitionSpec(this, min, max);
-		}
-
-		public RegexSpec Capture()
-		{
-			return new CaptureFunctionSpec(this);
-		}
-
-		public RegexSpec Decode(int @base)
-		{
-			return new DecodeFunctionSpec(this, @base);
-		}
-
-		public RegexSpec Sub(string value)
-		{
-			return new SubstituteFunctionSpec(this, value);
 		}
 		#endregion
 	}

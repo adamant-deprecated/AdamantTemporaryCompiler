@@ -63,10 +63,9 @@ namespace <%= ClassNamespace %>
 		private Mode currentMode = Mode.<%= InitialMode %>;
 		private Stack<Mode> modeStack = new Stack<Mode>();
 		private readonly StringBuilder tokenBuffer = new StringBuilder();
-		private readonly StringBuilder decodeBuffer = new StringBuilder();
+		private readonly StringBuilder captureBuffer = new StringBuilder();
 		private int currentLine = 0;
 		private int currentColumn = 0;
-		private int currentCodepoint = 0;
 
 		public <%= ClassName %>(TextReader reader)
 		{
@@ -130,6 +129,7 @@ namespace <%= ClassNamespace %>
 					default:
 						throw new InvalidOperationException();
 				}
+				tokenBuffer.Clear();
 
 				// TODO generate (or not) the token
 				if(token != null)

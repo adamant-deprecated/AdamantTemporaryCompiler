@@ -1,23 +1,13 @@
 ﻿namespace Adamant.CompilerCompiler.Lex.FiniteAutomata.InputActions
 {
-	public class CaptureValue : LexerInputAction
+	public class CaptureValue : LexerValueAction
 	{
-		public readonly string Value;
+		#region Singleton
+		public static LexerValueAction Instance { get; } = new CaptureValue();
 
-		public CaptureValue(string value)
+		private CaptureValue()
 		{
-			Value = value;
 		}
-
-		public override int GetHashCode()
-		{
-			return Value.GetHashCode();
-		}
-
-		public override bool Equals(object obj)
-		{
-			var other = obj as CaptureValue;
-			return other != null && Value == other.Value;
-		}
+		#endregion
 	}
 }

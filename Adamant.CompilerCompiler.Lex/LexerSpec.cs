@@ -76,10 +76,7 @@ namespace Adamant.CompilerCompiler.Lex
 
 		private HashSet<Channel> UsedChannels(IEnumerable<RuleSpec> simplifiedRules)
 		{
-			var usedChannels = new HashSet<Channel> { DefaultChannel };
-			foreach(var rule in simplifiedRules)
-				usedChannels.UnionWith(rule.ChannelsUsed());
-			return usedChannels;
+			return new HashSet<Channel>(simplifiedRules.Select(r => r.Channel ?? DefaultChannel));
 		}
 
 		/// <summary>
