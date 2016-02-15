@@ -25,7 +25,7 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 	{
 		public enum Channel
 		{
-			Default
+			Default, WhiteSpace
 		}
 
 		public enum TokenType
