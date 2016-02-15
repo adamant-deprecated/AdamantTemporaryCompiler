@@ -204,7 +204,7 @@ namespace Adamant.CompilerCompiler.Lex
 			for(var i = 1; i < actions.Length; i++)
 			{
 				var action = actions[i];
-				yield return $"case {i+1}:";
+				yield return $"case {i}:";
 				// Lexer Input Action
 				DecodeValue decodeAction;
 				TextValue valueAction;

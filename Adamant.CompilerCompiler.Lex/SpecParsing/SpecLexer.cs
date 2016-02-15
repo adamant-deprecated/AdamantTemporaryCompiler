@@ -729,142 +729,142 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 					case 0:
 						tokenBuffer.Append(codePoint);
 						continue;
-					case 2:
+					case 1:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Literal, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 3:
+					case 2:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Comment, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 4:
+					case 3:
 						currentMode = Mode.CharacterClass;
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Char, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 5:
+					case 4:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Namespace, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 6:
+					case 5:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Repetition, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 7:
+					case 6:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.WhiteSpace, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 8:
+					case 7:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Identifier, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 9:
+					case 8:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Definition, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 10:
+					case 9:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Alternation, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 11:
+					case 10:
 						modeStack.Push(currentMode);
 						currentMode = Mode.StartCharacterClass;
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.BeginCharClass, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 12:
+					case 11:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.AnyChar, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 13:
+					case 12:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Optional, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 14:
+					case 13:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Complement, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 15:
+					case 14:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Intersection, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 16:
+					case 15:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Subtraction, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 17:
+					case 16:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Upto, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 18:
+					case 17:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.BeginGroup, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 19:
+					case 18:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.EndGroup, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 20:
+					case 19:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.BeginningOfLine, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 21:
+					case 20:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.EndOfLine, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 22:
+					case 21:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.BeginQuantifier, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 23:
+					case 22:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.EndQuantifier, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 24:
+					case 23:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Terminator, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 25:
+					case 24:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Comma, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 26:
+					case 25:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Number, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 27:
+					case 26:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.UnexpectedCodePoint, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 28:
+					case 27:
 						currentMode = Mode.CharacterClass;
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.NegateCharClass, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 29:
+					case 28:
 						currentMode = modeStack.Pop();
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.EndCharClass, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 30:
+					case 29:
 						currentMode = Mode.CharacterClass;
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.CharRange, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 31:
+					case 30:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.BeginCommands, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 32:
+					case 31:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Mode, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 33:
+					case 32:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.More, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 34:
+					case 33:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Skip, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 35:
+					case 34:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Text, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 36:
+					case 35:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Type, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 37:
+					case 36:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Modes, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 38:
+					case 37:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Error, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 39:
+					case 38:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Lexer, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 40:
+					case 39:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Decode, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 41:
+					case 40:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.PopMode, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 42:
+					case 41:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Channel, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 43:
+					case 42:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Capture, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 44:
+					case 43:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.PushMode, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
-					case 45:
+					case 44:
 						token = new Adamant.CompilerCompiler.Lex.Runtime.Token<Channel, TokenType>(Channel.Default, TokenType.Channels, false, default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), default(Adamant.CompilerCompiler.Lex.Runtime.FilePosition), captureBuffer.ToString());
 						break;
 					default:

@@ -29,7 +29,7 @@ namespace Adamant.CompilerCompiler.Lex.SpecParsing
 			{
 				// Comments
 				new RuleSpec(initial, "Comment",("/*" + ~R("*/")) |("//" + ~newline), Command.SetChannel(whiteSpaceChannel)),
-				new RuleSpec(initial, "WhiteSpace", whitespace.Repeat(), Command.SetChannel(whiteSpaceChannel)),
+				new RuleSpec(initial, "WhiteSpace", whitespace.RepeatAtLeast(1), Command.SetChannel(whiteSpaceChannel)),
 	
 				// Commands
 				new RuleSpec(initial, "Mode", "@mode"),
