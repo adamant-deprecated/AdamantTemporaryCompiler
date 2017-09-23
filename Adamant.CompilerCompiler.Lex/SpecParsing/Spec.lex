@@ -95,8 +95,10 @@ hexDigit: [a-fA-F0-9];
 UnexpectedCodePoint: [^] -> @capture, @error;
 
 // Character Classes
-@modes StartCharacterClass;
-NegateCharClass: "^" -> @mode(CharacterClass);
+@modes StartCharacterClass
+{
+	NegateCharClass: "^" -> @mode(CharacterClass);
+}
 
 @modes CharacterClass;
 Char: escapeChar | [^\\\-\]] -> @capture, @mode(CharacterClass); // TODO control chars and newlines // Simplified around Unicode
